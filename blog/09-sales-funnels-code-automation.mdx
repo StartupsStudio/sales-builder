@@ -1,0 +1,698 @@
+---
+title: "Building Sales Funnels with Code: Trigger-Based Automation for the AI Era"
+description: "Learn how to define, execute, and optimize sales funnels as code with AI-powered trigger-based automation in 2026."
+date: "2026-03-19"
+author: "Sales Builder Team"
+tags: ["sales-funnels", "automation", "growth-engineering"]
+---
+
+# Building Sales Funnels with Code: Trigger-Based Automation for the AI Era
+
+Sales funnels used to be built in no-code tools with drag-and-drop interfaces. In 2026, growth engineers define funnels as code—version-controlled, testable, and executed by AI agents.
+
+## Why Code Beats No-Code for Funnels
+
+**No-code funnel builders (2020-2024):**
+- ✅ Easy to get started
+- ❌ Can't version control changes
+- ❌ Limited logic capabilities
+- ❌ Can't test before deploying
+- ❌ Doesn't scale to complex scenarios
+- ❌ Vendor lock-in
+- ❌ No way to share/collaborate effectively
+
+**Code-based funnels (2026):**
+- ✅ Full version control with git
+- ✅ Unlimited logic complexity
+- ✅ Test in staging before production
+- ✅ Reusable components
+- ✅ Open source, portable
+- ✅ Collaborative via pull requests
+- ✅ AI agents execute autonomously
+
+## Defining Funnels as Code
+
+```typescript
+import { defineFunnel, trigger, action } from '@sales-builder/funnels'
+
+export const productLedFunnel = defineFunnel({
+  name: 'self-serve-to-paid',
+
+  // Define all possible stages
+  stages: [
+    'visitor',
+    'signup',
+    'activated',
+    'power-user',
+    'trial-ending',
+    'paid-customer',
+    'churned'
+  ],
+
+  // Define stage transitions
+  transitions: [
+    {
+      from: 'visitor',
+      to: 'signup',
+      trigger: trigger.event('user.signup'),
+
+      actions: [
+        action.email('welcome-series-day-0'),
+        action.createRecord('crm', { stage: 'signup', source: trigger.source }),
+        action.notify('slack', { channel: 'new-signups' }),
+        action.tag('source', trigger.utmSource)
+      ]
+    },
+
+    {
+      from: 'signup',
+      to: 'activated',
+      trigger: trigger.all([
+        trigger.event('agent.created'),
+        trigger.event('campaign.sent'),
+        trigger.event('integration.connected')
+      ]),
+
+      condition: async ({ user, events }) => {
+        // Must complete activation within 7 days
+        const signupDate = user.signupDate
+        const daysSinceSignup = daysBetween(signupDate, now())
+        return daysSinceSignup <= 7
+      },
+
+      actions: [
+        action.email('congratulations-activated'),
+        action.updateRecord('crm', { stage: 'activated', activatedAt: now() }),
+        action.score('engagement', +25),
+        action.removeFromSequence('trial-onboarding'),
+        action.addToSequence('power-user-nurture')
+      ]
+    },
+
+    {
+      from: 'activated',
+      to: 'power-user',
+      trigger: trigger.score('usage', { min: 80 }),
+
+      condition: async ({ user }) => {
+        const usage = await getUsageMetrics(user)
+        return (
+          usage.agentsCreated >= 3 &&
+          usage.emailsSent >= 100 &&
+          usage.activelyUsing // logged in 5+ of last 7 days
+        )
+      },
+
+      actions: [
+        action.email('power-user-recognition'),
+        action.assignHuman('customer-success'),
+        action.notify('slack', {
+          channel: 'expansion-opportunities',
+          message: `${user.name} at ${user.company} is a power user!`
+        }),
+        action.schedule('upgrade-outreach', { delay: '2d' })
+      ]
+    },
+
+    {
+      from: ['activated', 'power-user'],
+      to: 'trial-ending',
+      trigger: trigger.schedule('trial-end-minus-3-days'),
+
+      condition: async ({ user }) => {
+        return !user.hasPaid && user.trialEndsIn <= 3
+      },
+
+      actions: [
+        action.email('trial-ending-upgrade-offer'),
+        action.showInApp('upgrade-banner'),
+        action.notify('slack', {
+          channel: 'trial-endings',
+          message: `${user.company} trial ends in ${user.trialEndsIn} days`
+        })
+      ]
+    },
+
+    {
+      from: ['activated', 'power-user', 'trial-ending'],
+      to: 'paid-customer',
+      trigger: trigger.event('payment.succeeded'),
+
+      actions: [
+        action.email('welcome-paid-customer'),
+        action.updateRecord('crm', {
+          stage: 'customer',
+          mrr: trigger.amount,
+          plan: trigger.plan
+        }),
+        action.removeFromSequence('trial-nurture'),
+        action.addToSequence('customer-onboarding'),
+        action.createCalendarEvent('customer-success-call', {
+          attendees: [user.email, 'cs@sales-builder.com'],
+          when: 'tomorrow-2pm'
+        }),
+        action.notify('slack', {
+          channel: 'revenue',
+          message: `💰 ${user.company} upgraded to ${trigger.plan} - $${trigger.amount}/mo`
+        })
+      ]
+    },
+
+    {
+      from: ['signup', 'activated'],
+      to: 'churned',
+      trigger: trigger.any([
+        trigger.event('account.deleted'),
+        trigger.schedule('30-days-inactive')
+      ]),
+
+      actions: [
+        action.email('sorry-to-see-you-go'),
+        action.updateRecord('crm', { stage: 'churned', churnReason: trigger.reason }),
+        action.removeFromAllSequences(),
+        action.addToSequence('win-back', { delay: '90d' }),
+        action.notify('slack', {
+          channel: 'churn',
+          message: `${user.company} churned. Reason: ${trigger.reason}`
+        })
+      ]
+    }
+  ],
+
+  // Define nurture sequences for each stage
+  sequences: {
+    'trial-onboarding': {
+      stage: 'signup',
+      steps: [
+        { day: 0, email: 'welcome-setup-guide' },
+        { day: 1, email: 'first-agent-tutorial' },
+        { day: 3, email: 'integration-options' },
+        { day: 5, email: 'success-stories' },
+        { day: 7, email: 'halfway-point-checkin' }
+      ]
+    },
+
+    'power-user-nurture': {
+      stage: 'activated',
+      steps: [
+        { day: 0, email: 'advanced-features' },
+        { day: 7, email: 'scaling-best-practices' },
+        { day: 14, email: 'upgrade-benefits' }
+      ]
+    },
+
+    'customer-onboarding': {
+      stage: 'paid-customer',
+      steps: [
+        { day: 0, email: 'welcome-paid-resources' },
+        { day: 3, email: 'optimization-tips' },
+        { day: 7, email: 'advanced-configurations' },
+        { day: 30, email: 'quarterly-business-review-invite' }
+      ]
+    }
+  },
+
+  // Analytics and optimization
+  analytics: {
+    track: [
+      'stage-entry-time',
+      'stage-duration',
+      'conversion-rate-between-stages',
+      'drop-off-points',
+      'email-performance-by-stage'
+    ],
+
+    goals: {
+      'signup-to-activated': { rate: 0.40, within: '7d' },
+      'activated-to-paid': { rate: 0.25, within: '14d' },
+      'trial-to-paid': { rate: 0.30, within: '14d' }
+    },
+
+    alerts: [
+      {
+        condition: 'conversion-rate-below-goal',
+        notify: 'slack:growth-team',
+        frequency: 'weekly'
+      },
+      {
+        condition: 'unusual-churn-spike',
+        notify: 'slack:founders',
+        frequency: 'immediate'
+      }
+    ]
+  }
+})
+```
+
+## Trigger Types: When to Take Action
+
+```typescript
+// Event-based triggers
+trigger.event('user.signup')
+trigger.event('payment.succeeded')
+trigger.event('feature.used')
+
+// Time-based triggers
+trigger.schedule('7-days-after-signup')
+trigger.schedule('trial-end-minus-3-days')
+trigger.cron('0 9 * * 1') // Every Monday at 9 AM
+
+// Behavior-based triggers
+trigger.score('engagement', { min: 75 })
+trigger.usage('emails-sent', { min: 100 })
+trigger.inactivity({ days: 7 })
+
+// Compound triggers
+trigger.all([
+  trigger.event('agent.created'),
+  trigger.event('email.sent'),
+  trigger.score('setup', { min: 80 })
+])
+
+trigger.any([
+  trigger.event('trial.ended'),
+  trigger.event('payment.failed'),
+  trigger.inactivity({ days: 30 })
+])
+
+// Conditional triggers
+trigger.when(async ({ user }) => {
+  return user.company.size > 50 && user.title.includes('VP')
+})
+```
+
+## Action Types: What to Execute
+
+```typescript
+// Communication actions
+action.email('template-name', { personalize: true })
+action.sms('template-name')
+action.inAppMessage('upgrade-prompt')
+action.slack('channel-name', { message: '...' })
+
+// Data actions
+action.updateRecord('crm', { field: value })
+action.createRecord('deals', { data })
+action.score('engagement', +10)
+action.tag('segment', 'power-user')
+
+// Sequence actions
+action.addToSequence('nurture-sequence')
+action.removeFromSequence('trial-sequence')
+action.pauseSequence('onboarding', { days: 3 })
+
+// AI agent actions
+action.assignAgent('outbound-agent', { priority: 'high' })
+action.generateContent('case-study', { about: user })
+action.personalizedOutreach({ channel: 'email' })
+
+// Human actions
+action.assignHuman('customer-success')
+action.createTask('founder', { task: 'call-high-value-lead' })
+action.scheduleCall({ attendees, when })
+
+// Integration actions
+action.webhook('https://api.example.com/webhook')
+action.api('salesforce', { action: 'create-opportunity' })
+action.zapier('trigger-name', { data })
+```
+
+## Complex Funnel Logic
+
+### Multi-Path Funnels
+
+```typescript
+export const enterpriseFunnel = defineFunnel({
+  name: 'enterprise-sales-funnel',
+
+  // Different paths based on lead source
+  paths: {
+    inbound: {
+      stages: ['inquiry', 'qualified', 'demo', 'proposal', 'negotiation', 'closed'],
+
+      entry: trigger.event('demo.requested'),
+
+      flow: [
+        {
+          from: 'inquiry',
+          to: 'qualified',
+          trigger: trigger.score('fit', { min: 70 }),
+
+          actions: [
+            action.assignHuman('sales-rep'),
+            action.email('qualification-questions'),
+            action.createRecord('crm', { type: 'opportunity', source: 'inbound' })
+          ]
+        },
+
+        {
+          from: 'qualified',
+          to: 'demo',
+          trigger: trigger.event('demo.scheduled'),
+
+          actions: [
+            action.email('demo-prep-materials'),
+            action.enrichCompany({ depth: 'comprehensive' }),
+            action.generatePresentation({ customized: true }),
+            action.notify('slack', { channel: 'demos' })
+          ]
+        }
+        // ... more stages
+      ]
+    },
+
+    outbound: {
+      stages: ['prospect', 'contacted', 'engaged', 'qualified', 'demo', 'proposal', 'closed'],
+
+      entry: trigger.event('added.to.outbound.list'),
+
+      flow: [
+        {
+          from: 'prospect',
+          to: 'contacted',
+          trigger: trigger.event('email.sent'),
+
+          actions: [
+            action.score('outreach-attempt', +1),
+            action.trackEvent('first-touch')
+          ]
+        },
+
+        {
+          from: 'contacted',
+          to: 'engaged',
+          trigger: trigger.any([
+            trigger.event('email.replied'),
+            trigger.event('linkedin.accepted'),
+            trigger.event('website.visited')
+          ]),
+
+          actions: [
+            action.score('engagement', +25),
+            action.assignAgent('qualification-agent'),
+            action.notify('slack', { channel: 'engaged-prospects' })
+          ]
+        }
+        // ... more stages
+      ]
+    }
+  },
+
+  // Paths can merge
+  mergePoint: {
+    from: ['inbound.qualified', 'outbound.qualified'],
+    to: 'unified.demo',
+
+    actions: [
+      action.standardizeData(),
+      action.assignBasedOnTerritory()
+    ]
+  }
+})
+```
+
+### Conditional Branching
+
+```typescript
+const branchedFunnel = defineFunnel({
+  name: 'smart-routing-funnel',
+
+  transitions: [
+    {
+      from: 'lead',
+      to: async ({ lead }) => {
+        // AI decides the path
+        const analysis = await analyzeLeadQuality(lead)
+
+        if (analysis.score >= 80) {
+          return 'hot-lead-path' // Fast-track to human
+        } else if (analysis.score >= 50) {
+          return 'warm-lead-path' // AI nurture then human
+        } else {
+          return 'cold-lead-path' // Long-term AI nurture
+        }
+      },
+
+      actions: async ({ lead, path }) => {
+        const actionsMap = {
+          'hot-lead-path': [
+            action.assignHuman('senior-ae', { priority: 'urgent' }),
+            action.email('high-value-personal-outreach'),
+            action.notify('slack', { channel: 'hot-leads' })
+          ],
+
+          'warm-lead-path': [
+            action.assignAgent('qualification-agent'),
+            action.addToSequence('warm-lead-nurture'),
+            action.score('priority', 50)
+          ],
+
+          'cold-lead-path': [
+            action.assignAgent('long-term-nurture-agent'),
+            action.addToSequence('educational-content'),
+            action.score('priority', 20)
+          ]
+        }
+
+        return actionsMap[path]
+      }
+    }
+  ]
+})
+```
+
+## Real-Time Funnel Optimization
+
+AI agents continuously optimize funnels:
+
+```typescript
+const optimizeFunnel = defineAgenticFunction({
+  name: 'funnel-optimizer',
+  schedule: 'daily',
+
+  analyze: async ({ funnel }) => {
+    // Get performance data
+    const performance = await getFunnelAnalytics(funnel, { last: '30d' })
+
+    // Identify bottlenecks
+    const bottlenecks = performance.stages
+      .map(stage => ({
+        stage: stage.name,
+        conversionRate: stage.converted / stage.entered,
+        dropOffRate: 1 - (stage.converted / stage.entered),
+        avgTimeInStage: stage.avgDuration
+      }))
+      .filter(s => s.conversionRate < funnel.goals[s.stage])
+      .sort((a, b) => b.dropOffRate - a.dropOffRate)
+
+    return { performance, bottlenecks }
+  },
+
+  decide: async ({ bottlenecks, funnel }) => {
+    const improvements = []
+
+    for (const bottleneck of bottlenecks) {
+      // AI suggests improvements
+      const suggestion = await analyzeStageProblem({
+        stage: bottleneck.stage,
+        conversionRate: bottleneck.conversionRate,
+        avgTime: bottleneck.avgTimeInStage,
+        emailPerformance: await getEmailPerformance(bottleneck.stage),
+        userFeedback: await getUserFeedback(bottleneck.stage)
+      })
+
+      improvements.push({
+        stage: bottleneck.stage,
+        problem: suggestion.diagnosis,
+        recommendation: suggestion.solution,
+        expectedImpact: suggestion.projectedLift,
+        implementation: suggestion.codeChanges
+      })
+    }
+
+    return improvements
+  },
+
+  execute: async ({ improvements }) => {
+    // Create pull requests for improvements
+    for (const improvement of improvements.filter(i => i.expectedImpact > 0.10)) {
+      await createPullRequest({
+        title: `Optimize ${improvement.stage} conversion (+${improvement.expectedImpact * 100}% projected)`,
+        description: `
+## Problem
+${improvement.problem}
+
+## Recommendation
+${improvement.recommendation}
+
+## Expected Impact
++${improvement.expectedImpact * 100}% conversion rate
+
+## Changes
+${improvement.implementation}
+        `,
+        changes: improvement.implementation,
+        assignReviewers: ['growth-team']
+      })
+    }
+
+    // Auto-implement low-risk improvements
+    for (const improvement of improvements.filter(i => i.risk === 'low')) {
+      await implementOptimization(improvement)
+
+      await notify({
+        channel: 'slack:growth-team',
+        message: `🚀 Auto-optimized ${improvement.stage}: ${improvement.recommendation}`
+      })
+    }
+  }
+})
+```
+
+## Testing Funnels Before Deploy
+
+```typescript
+// Test funnel logic locally
+import { testFunnel } from '@sales-builder/testing'
+
+describe('Product-Led Funnel', () => {
+  it('should activate users who complete onboarding', async () => {
+    const result = await testFunnel(productLedFunnel, {
+      user: mockUser({ stage: 'signup' }),
+
+      events: [
+        { type: 'agent.created', at: '+1h' },
+        { type: 'campaign.sent', at: '+2h' },
+        { type: 'integration.connected', at: '+3h' }
+      ]
+    })
+
+    expect(result.finalStage).toBe('activated')
+    expect(result.actionsTaken).toContain('email:congratulations-activated')
+    expect(result.score.engagement).toBe(25)
+  })
+
+  it('should not activate if onboarding incomplete', async () => {
+    const result = await testFunnel(productLedFunnel, {
+      user: mockUser({ stage: 'signup' }),
+
+      events: [
+        { type: 'agent.created', at: '+1h' }
+        // Missing: campaign.sent, integration.connected
+      ],
+
+      advanceTime: '7d'
+    })
+
+    expect(result.finalStage).toBe('signup')
+    expect(result.sequencesActive).toContain('trial-onboarding')
+  })
+
+  it('should upgrade power users to paid', async () => {
+    const result = await testFunnel(productLedFunnel, {
+      user: mockUser({
+        stage: 'power-user',
+        usage: { agentsCreated: 5, emailsSent: 500 }
+      }),
+
+      events: [
+        { type: 'payment.succeeded', amount: 499, plan: 'professional' }
+      ]
+    })
+
+    expect(result.finalStage).toBe('paid-customer')
+    expect(result.crm.mrr).toBe(499)
+    expect(result.sequencesActive).toContain('customer-onboarding')
+  })
+})
+
+// Load test funnel at scale
+const loadTest = await testFunnelLoad(productLedFunnel, {
+  users: 10000,
+  duration: '30d',
+  distribution: {
+    'signup': 0.60,
+    'activated': 0.25,
+    'power-user': 0.10,
+    'paid-customer': 0.05
+  }
+})
+
+console.log(loadTest.results)
+// {
+//   totalProcessed: 10000,
+//   avgProcessingTime: '142ms',
+//   emailsSent: 34782,
+//   conversions: {
+//     'signup-to-activated': 0.42,
+//     'activated-to-paid': 0.28,
+//     'trial-to-paid': 0.31
+//   }
+// }
+```
+
+## Version Control for Funnels
+
+```bash
+# See funnel evolution
+git log funnels/product-led.ts
+
+# Compare funnels
+git diff v1.0..v2.0 funnels/product-led.ts
+
+# Rollback if new funnel underperforms
+git revert HEAD funnels/product-led.ts
+
+# A/B test funnels
+git checkout -b funnel-experiment-shorter-trial
+# Make changes
+git commit -m "Experiment: 7-day trial instead of 14-day"
+
+# Deploy both versions
+npx sales-builder funnel deploy --ab-test \
+  --control=main \
+  --experiment=funnel-experiment-shorter-trial \
+  --traffic-split=50/50
+```
+
+## Real Results
+
+Sales-builder funnel performance (Q1 2026):
+
+### Product-Led Funnel
+- **Signups**: 2,847
+- **Activated** (completed onboarding): 1,192 (41.9%)
+- **Power users**: 327 (27.4% of activated)
+- **Converted to paid**: 358 (30.0% of activated, 12.6% of signups)
+- **MRR added**: $121,420
+
+### Enterprise Funnel
+- **Leads**: 847
+- **Qualified**: 423 (49.9%)
+- **Demos**: 284 (67.1% of qualified)
+- **Proposals**: 147 (51.8% of demos)
+- **Closed**: 67 (45.6% of proposals)
+- **ARR added**: $1,247,800
+
+### Optimization Impact
+- **Email open rates**: +23% (optimized subject lines)
+- **Activation rate**: +18% (streamlined onboarding)
+- **Trial-to-paid**: +31% (better qualification + nurture)
+- **Time-to-close**: -34% (automated follow-ups)
+
+## The Bottom Line
+
+In 2026, sales funnels are software. Define them as code, version them in git, test them before deploy, and let AI agents execute and optimize them continuously.
+
+The result: Predictable, scalable, optimizable revenue generation.
+
+---
+
+**Action Steps:**
+1. Map your current funnel stages and transitions
+2. Define funnel as code with triggers and actions
+3. Test locally and in staging
+4. Deploy with monitoring
+5. Let AI agents optimize continuously
+
+The age of point-and-click funnels is over. The age of code-defined, AI-optimized funnels is here.

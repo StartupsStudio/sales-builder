@@ -1,0 +1,554 @@
+---
+title: "Growth-as-Code: Defining Your Entire Go-to-Market Strategy in TypeScript"
+description: "Learn how to define, version, and execute your complete growth strategy as code with AI agents in 2026."
+date: "2026-01-22"
+author: "Sales Builder Team"
+tags: ["growth-as-code", "typescript", "gtm-strategy"]
+---
+
+# Growth-as-Code: Defining Your Entire Go-to-Market Strategy in TypeScript
+
+Infrastructure-as-Code revolutionized DevOps. Growth-as-Code is doing the same for go-to-market strategies in 2026.
+
+Instead of scattered spreadsheets, disconnected tools, and tribal knowledge, modern startups define their entire growth strategy as executable TypeScript that AI agents run 24/7.
+
+## Why Code? Why Now?
+
+Traditional go-to-market execution has fatal flaws:
+
+- **Not reproducible**: "What worked last quarter?" requires archaeology through Slack threads
+- **Not testable**: Can't A/B test strategies before committing resources
+- **Not versionable**: No git history of strategic evolution
+- **Not scalable**: Manual processes break as volume increases
+- **Not auditable**: No clear trail of what happened and why
+
+Growth-as-Code solves all of these by treating your GTM strategy as a software system.
+
+## The Growth-as-Code Manifest
+
+```typescript
+// growth.config.ts - Your entire growth strategy in one file
+import { defineGrowthConfig } from '@sales-builder/core'
+
+export default defineGrowthConfig({
+  // WHO you're targeting
+  icp: {
+    titles: ['Founder', 'CTO', 'VP Engineering'],
+    companySize: [1, 100],
+    industries: ['SaaS', 'Developer Tools'],
+    technographics: ['uses:typescript', 'uses:react', 'uses:vercel'],
+    signals: ['product-hunt-launch', 'techcrunch-mention', 'series-a-raised']
+  },
+
+  // WHAT you're saying
+  messaging: {
+    positioning: 'AI agents that replace your entire sales team',
+    valueProps: [
+      '50x output at 10% of the cost',
+      'Launch to $1M ARR with zero sales hires',
+      '24/7 autonomous outbound and nurturing'
+    ],
+    objections: {
+      'too-expensive': 'Cost comparison: $120K/year vs $1M+ for human team',
+      'not-personal': 'Our AI writes more personalized emails than humans at scale',
+      'job-loss': 'Free founders from repetitive work to focus on strategy'
+    }
+  },
+
+  // WHERE you're showing up
+  channels: {
+    content: {
+      blog: { frequency: 'daily', wordCount: [800, 1200] },
+      linkedin: { postsPerWeek: 5, commentsPerDay: 20 },
+      twitter: { threadsPerWeek: 3, repliesPerDay: 30 },
+      youtube: { videosPerWeek: 2, duration: [300, 900] }
+    },
+
+    outbound: {
+      email: { dailyLimit: 100, warmupPeriod: '14d' },
+      linkedin: { connectionsPerDay: 25, messagesPerDay: 15 }
+    },
+
+    advertising: {
+      google: { monthlyBudget: 5000, campaigns: ['branded', 'competitor'] },
+      linkedin: { monthlyBudget: 3000, objective: 'lead-generation' }
+    }
+  },
+
+  // HOW you're converting
+  funnels: {
+    inbound: [
+      { stage: 'visitor', trigger: 'page.view' },
+      { stage: 'lead', trigger: 'email.captured' },
+      { stage: 'qualified', trigger: 'demo.requested' },
+      { stage: 'customer', trigger: 'payment.completed' }
+    ],
+
+    outbound: [
+      { stage: 'prospect', trigger: 'list.added' },
+      { stage: 'contacted', trigger: 'email.sent' },
+      { stage: 'engaged', trigger: 'email.replied' },
+      { stage: 'qualified', trigger: 'meeting.scheduled' },
+      { stage: 'customer', trigger: 'contract.signed' }
+    ]
+  },
+
+  // WHEN you're executing
+  automation: {
+    schedules: {
+      contentGeneration: 'cron:0 6 * * *', // 6 AM daily
+      outboundBatch: 'cron:0 9,14 * * 1-5', // 9 AM and 2 PM weekdays
+      socialEngagement: 'cron:0 */2 * * *', // Every 2 hours
+      analyticsReport: 'cron:0 18 * * 5' // 6 PM Fridays
+    }
+  }
+})
+```
+
+## Composable Growth Primitives
+
+Growth-as-Code uses composable primitives that mirror real growth activities:
+
+### 1. Audience Definitions
+
+```typescript
+import { defineAudience } from '@sales-builder/core'
+
+// Define once, use everywhere
+export const earlyAdopters = defineAudience({
+  name: 'technical-founders',
+
+  criteria: {
+    job: {
+      titles: ['Founder', 'Co-Founder', 'CEO'],
+      seniority: ['founder', 'c-level']
+    },
+
+    company: {
+      size: [1, 20],
+      founded: { after: '2023-01-01' },
+      industries: ['SaaS', 'AI', 'Developer Tools']
+    },
+
+    behavior: {
+      github: { followers: { min: 100 } },
+      twitter: { followers: { min: 500 } },
+      recentActivity: ['product-launch', 'funding-announcement']
+    }
+  },
+
+  enrichment: {
+    sources: ['clearbit', 'apollo', 'linkedin'],
+    fields: ['techStack', 'fundingHistory', 'teamSize']
+  }
+})
+
+// Use in multiple campaigns
+const emailCampaign = defineCampaign({
+  audience: earlyAdopters,
+  channel: 'email'
+})
+
+const linkedinCampaign = defineCampaign({
+  audience: earlyAdopters,
+  channel: 'linkedin'
+})
+```
+
+### 2. Content Templates
+
+```typescript
+import { defineContentTemplate } from '@sales-builder/content'
+
+export const thoughtLeadershipPost = defineContentTemplate({
+  name: 'linkedin-thought-leadership',
+  channel: 'linkedin',
+
+  structure: {
+    hook: {
+      style: 'contrarian-statement',
+      maxLength: 100
+    },
+    body: {
+      format: 'story-data-insight',
+      paragraphs: [3, 5],
+      includeExample: true
+    },
+    cta: {
+      type: 'conversation-starter',
+      question: true
+    }
+  },
+
+  voice: {
+    tone: ['confident', 'helpful', 'technical'],
+    perspective: 'first-person',
+    avoid: ['hype', 'buzzwords', 'generic-advice']
+  },
+
+  seo: {
+    keywords: { min: 2, max: 4 },
+    hashtags: { count: 3, style: 'relevant-not-trending' }
+  }
+})
+
+// Generate content using the template
+const post = await generateContent({
+  template: thoughtLeadershipPost,
+  topic: 'AI agents replacing sales teams',
+  context: { recentNews: 'OpenAI releases GPT-5' }
+})
+```
+
+### 3. Outbound Sequences
+
+```typescript
+import { defineSequence } from '@sales-builder/sequences'
+
+export const founderOutreach = defineSequence({
+  name: 'technical-founder-outreach',
+  audience: earlyAdopters,
+
+  steps: [
+    {
+      day: 0,
+      channel: 'email',
+      template: 'initial-outreach',
+      personalization: [
+        'recent-company-news',
+        'shared-connections',
+        'tech-stack-insight'
+      ]
+    },
+
+    {
+      day: 3,
+      condition: { not: 'email.replied' },
+      channel: 'linkedin',
+      template: 'linkedin-connection',
+      note: 'Reference the email sent 3 days ago'
+    },
+
+    {
+      day: 7,
+      condition: { or: ['email.opened', 'linkedin.accepted'] },
+      channel: 'email',
+      template: 'value-case-study',
+      attach: 'customer-success-story.pdf'
+    },
+
+    {
+      day: 14,
+      condition: { not: 'meeting.scheduled' },
+      channel: 'email',
+      template: 'breakup-email',
+      tone: 'friendly-final-attempt'
+    }
+  ],
+
+  exits: [
+    { trigger: 'email.replied', action: 'move-to-engaged' },
+    { trigger: 'meeting.scheduled', action: 'move-to-qualified' },
+    { trigger: 'unsubscribe', action: 'remove-from-all' }
+  ],
+
+  humanInLoop: {
+    required: false,
+    reviewBefore: 'send', // optional review
+    approvalThreshold: { leadScore: { min: 80 } } // auto-send if score > 80
+  }
+})
+```
+
+### 4. Conversion Funnels
+
+```typescript
+import { defineFunnel } from '@sales-builder/funnels'
+
+export const productLedFunnel = defineFunnel({
+  name: 'self-serve-to-paid',
+
+  stages: [
+    {
+      name: 'visitor',
+      entry: { trigger: 'page.view', page: '/pricing' },
+
+      actions: [
+        { type: 'track', event: 'pricing-page-view' },
+        { type: 'show', component: 'exit-intent-popup', delay: 30000 }
+      ]
+    },
+
+    {
+      name: 'trial-user',
+      entry: { trigger: 'signup.completed' },
+
+      actions: [
+        { type: 'send-email', template: 'welcome-day-0' },
+        { type: 'add-to-sequence', sequence: 'trial-onboarding' },
+        { type: 'notify-slack', channel: '#new-signups' }
+      ],
+
+      goals: [
+        { action: 'first-agent-created', daysToAchieve: 1 },
+        { action: 'first-campaign-sent', daysToAchieve: 3 },
+        { action: 'integration-connected', daysToAchieve: 7 }
+      ]
+    },
+
+    {
+      name: 'activated-user',
+      entry: { trigger: 'goals.achieved', minGoals: 2 },
+
+      actions: [
+        { type: 'send-email', template: 'upgrade-offer' },
+        { type: 'show-in-app', component: 'upgrade-banner' },
+        { type: 'assign-human', role: 'customer-success' }
+      ]
+    },
+
+    {
+      name: 'paid-customer',
+      entry: { trigger: 'payment.completed' },
+
+      actions: [
+        { type: 'send-email', template: 'welcome-paying-customer' },
+        { type: 'create-onboarding-call' },
+        { type: 'add-to-community', community: 'customer-slack' }
+      ]
+    }
+  ],
+
+  analytics: {
+    track: ['stage-entry', 'stage-exit', 'time-in-stage'],
+    alerts: [
+      { condition: { stage: 'trial-user', days: 10, action: 'none' }, notify: 'human' },
+      { condition: { dropoff: { rate: 0.5, stage: 'activated-user' } }, notify: 'team' }
+    ]
+  }
+})
+```
+
+## Testing Growth Strategies Before Execution
+
+One massive advantage of Growth-as-Code: you can test strategies before spending a dollar:
+
+```typescript
+import { simulateGrowth } from '@sales-builder/testing'
+
+// Simulate a 90-day growth campaign
+const simulation = await simulateGrowth({
+  config: growthConfig,
+  duration: '90d',
+
+  assumptions: {
+    emailOpenRate: 0.35,
+    emailReplyRate: 0.08,
+    demoShowRate: 0.70,
+    demoToCustomerRate: 0.25
+  },
+
+  costs: {
+    emailCredits: 0.001, // per email
+    aiTokens: 0.02, // per 1K tokens
+    enrichment: 0.10 // per lead enriched
+  }
+})
+
+console.log(simulation.results)
+// {
+//   totalLeads: 9000,
+//   qualified: 720,
+//   demos: 504,
+//   customers: 126,
+//   revenue: $378,000,
+//   costs: $12,340,
+//   roi: 30.6x
+// }
+```
+
+## Version Control for Growth Strategy
+
+Your growth strategy evolves. Git tracks every change:
+
+```bash
+# See how your strategy evolved
+git log growth.config.ts
+
+# Compare Q1 vs Q2 strategy
+git diff q1-strategy q2-strategy growth.config.ts
+
+# Rollback to previous strategy if new one underperforms
+git revert HEAD growth.config.ts
+```
+
+## Multi-Environment Growth
+
+Just like infrastructure, run different growth strategies per environment:
+
+```typescript
+// growth.config.ts
+import { defineGrowthConfig } from '@sales-builder/core'
+
+const baseConfig = {
+  icp: { /* shared ICP */ },
+  messaging: { /* shared messaging */ }
+}
+
+export const development = defineGrowthConfig({
+  ...baseConfig,
+  channels: {
+    outbound: { dailyLimit: 10 }, // Limited in dev
+    email: { provider: 'test-mode' }
+  }
+})
+
+export const staging = defineGrowthConfig({
+  ...baseConfig,
+  channels: {
+    outbound: { dailyLimit: 50 },
+    email: { provider: 'resend', testMode: true }
+  }
+})
+
+export const production = defineGrowthConfig({
+  ...baseConfig,
+  channels: {
+    outbound: { dailyLimit: 100 },
+    email: { provider: 'resend', testMode: false }
+  }
+})
+```
+
+## AI Agents Execute Your Code
+
+Once defined, AI agents execute your growth strategy 24/7:
+
+```typescript
+// Start autonomous execution
+import { startAgents } from '@sales-builder/agents'
+
+await startAgents({
+  config: production,
+
+  agents: {
+    content: {
+      enabled: true,
+      schedule: 'continuous',
+      models: { writing: 'claude-opus-4.5' }
+    },
+
+    outbound: {
+      enabled: true,
+      schedule: 'business-hours',
+      models: { personalization: 'claude-opus-4.5' },
+      humanApproval: true // Review before sending
+    },
+
+    social: {
+      enabled: true,
+      schedule: 'continuous',
+      models: { engagement: 'claude-sonnet-4.5' } // Faster model for high volume
+    },
+
+    nurture: {
+      enabled: true,
+      schedule: 'continuous',
+      models: { responses: 'claude-opus-4.5' }
+    }
+  },
+
+  monitoring: {
+    alerts: ['agent-errors', 'low-deliverability', 'high-unsubscribe'],
+    dashboardUrl: 'https://dashboard.api.sb/agents'
+  }
+})
+```
+
+## Real-World Example: Launch Day Orchestration
+
+Here's how a Product Hunt launch is defined and executed as code:
+
+```typescript
+import { defineEvent } from '@sales-builder/events'
+
+export const productHuntLaunch = defineEvent({
+  name: 'product-hunt-launch',
+  date: '2026-03-15',
+  timezone: 'America/Los_Angeles', // PH launches at midnight PT
+
+  orchestration: [
+    {
+      time: '-24h', // Day before
+      actions: [
+        { agent: 'content', task: 'publish-launch-blog-post' },
+        { agent: 'social', task: 'tease-launch', platforms: ['twitter', 'linkedin'] },
+        { agent: 'email', task: 'send-vip-heads-up', list: 'early-supporters' }
+      ]
+    },
+
+    {
+      time: '00:00', // Launch moment
+      actions: [
+        { agent: 'social', task: 'post-launch-announcement', platforms: 'all' },
+        { agent: 'email', task: 'send-launch-email', list: 'full-list' },
+        { agent: 'content', task: 'publish-supporting-content' }
+      ]
+    },
+
+    {
+      time: '+2h',
+      actions: [
+        { agent: 'social', task: 'engage-product-hunt-comments', frequency: 'every-15min' },
+        { agent: 'social', task: 'thank-supporters', trigger: 'upvote-received' }
+      ]
+    },
+
+    {
+      time: '+24h', // Day after
+      actions: [
+        { agent: 'content', task: 'publish-launch-recap' },
+        { agent: 'email', task: 'send-thank-you-email' },
+        { agent: 'analytics', task: 'generate-launch-report' }
+      ]
+    }
+  ]
+})
+```
+
+## The Competitive Advantage
+
+Companies using Growth-as-Code in 2026 are:
+
+1. **Moving faster**: Deploy new campaigns in hours, not weeks
+2. **Learning faster**: A/B test strategies, not just tactics
+3. **Scaling efficiently**: Growth doesn't require proportional headcount
+4. **Staying consistent**: Brand voice and messaging enforced in code
+5. **Remaining auditable**: Complete history of what was tried and results
+
+## Getting Started
+
+Start small. Define one aspect of your growth in code:
+
+```typescript
+// Start with your ICP
+export const icp = defineAudience({ /* ... */ })
+
+// Add one outbound sequence
+export const sequence = defineSequence({ /* ... */ })
+
+// Launch with one agent
+await startAgent('outbound', { sequence, audience: icp })
+```
+
+Then expand from there. In 2026, your growth strategy is either code or chaos. Choose code.
+
+---
+
+**Next Steps:**
+1. Clone the sales-builder starter kit: `npx create-sales-builder`
+2. Define your ICP in TypeScript
+3. Set up your first autonomous agent
+4. Watch your growth run 24/7
+
+The age of Growth-as-Code is here. The only question is how fast you'll adopt it.

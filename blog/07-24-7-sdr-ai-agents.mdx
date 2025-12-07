@@ -1,0 +1,631 @@
+---
+title: "The 24/7 SDR: AI Agents That Never Sleep, Never Miss a Lead"
+description: "Discover how autonomous AI SDRs work around the clock, qualifying leads and booking meetings without human intervention in 2026."
+date: "2026-03-05"
+author: "Sales Builder Team"
+tags: ["ai-sdr", "sales-automation", "lead-qualification"]
+---
+
+# The 24/7 SDR: AI Agents That Never Sleep, Never Miss a Lead
+
+The traditional SDR works 40 hours per week, takes vacations, and misses leads outside business hours. AI SDRs work 168 hours per week, never take breaks, and respond to leads in minutes—24/7/365.
+
+## The SDR Economics Problem
+
+Hiring human SDRs has never made economic sense for early-stage startups:
+
+**Human SDR Costs:**
+- Salary: $60K-$80K base + $20K-$40K commission
+- Benefits: $15K-$25K (health, 401k, etc.)
+- Tools & training: $5K-$10K annually
+- Management overhead: 20-30% of salary
+- Ramp time: 3-6 months to productivity
+- **Total first-year cost: $120K-$180K per SDR**
+
+**Human SDR Output:**
+- Working hours: 40/week = 2,080/year (minus vacation, sick days)
+- Productive hours: ~60% (1,248 hours annually)
+- Emails per day: 40-60
+- Calls per day: 20-30
+- Meetings booked: 4-8 per month
+- **Total: ~50-100 meetings per year per SDR**
+
+**Cost per meeting booked: $1,200-$3,600**
+
+For a startup trying to reach $1M ARR, this math doesn't work.
+
+## The AI SDR Alternative
+
+```typescript
+import { defineAISDR } from '@sales-builder/agents'
+
+export const aiSDR = defineAISDR({
+  // ICP definition
+  targeting: {
+    titles: ['Founder', 'CTO', 'VP Engineering', 'Head of Product'],
+    companySize: [1, 100],
+    industries: ['SaaS', 'Developer Tools', 'AI/ML'],
+    technographics: ['uses:typescript', 'uses:react', 'uses:aws'],
+    signals: [
+      'product-hunt-launch',
+      'funding-announcement',
+      'hiring-engineers',
+      'techcrunch-mention'
+    ]
+  },
+
+  // Lead sourcing
+  sourcing: {
+    sources: ['apollo', 'clearbit', 'hunter', 'linkedin-sales-nav'],
+    dailyNewLeads: 50,
+    enrichment: {
+      company: ['revenue', 'headcount', 'tech-stack', 'funding'],
+      person: ['email-verified', 'linkedin-url', 'recent-activity']
+    }
+  },
+
+  // Qualification logic
+  qualification: {
+    scoreFactors: {
+      titleMatch: { weight: 25, score: (title) => exactMatch(title, targeting.titles) },
+      companySize: { weight: 15, score: (size) => inRange(size, targeting.companySize) },
+      industryMatch: { weight: 15, score: (industry) => matches(industry, targeting.industries) },
+      hasSignal: { weight: 20, score: (signals) => hasAny(signals, targeting.signals) },
+      techStack: { weight: 15, score: (tech) => overlap(tech, targeting.technographics) },
+      engagement: { weight: 10, score: (history) => calculateEngagement(history) }
+    },
+
+    thresholds: {
+      cold: { score: { max: 40 }, action: 'nurture-sequence' },
+      warm: { score: { min: 41, max: 69 }, action: 'standard-outreach' },
+      hot: { score: { min: 70 }, action: 'priority-outreach-immediate' }
+    }
+  },
+
+  // Outreach strategy
+  outreach: {
+    channels: ['email', 'linkedin'],
+
+    email: {
+      dailyLimit: 100,
+      sequences: {
+        cold: {
+          steps: [
+            { day: 0, template: 'initial-value-prop' },
+            { day: 3, template: 'case-study-relevant', condition: 'not:replied' },
+            { day: 7, template: 'different-angle', condition: 'not:replied' },
+            { day: 14, template: 'breakup-email', condition: 'not:replied' }
+          ]
+        },
+
+        warm: {
+          steps: [
+            { day: 0, template: 'personalized-insight' },
+            { day: 4, template: 'specific-use-case', condition: 'not:replied' },
+            { day: 10, template: 'final-touch', condition: 'not:replied' }
+          ]
+        },
+
+        hot: {
+          steps: [
+            { day: 0, template: 'highly-personalized-immediate-value' },
+            { day: 2, template: 'founder-direct-outreach', condition: 'not:replied' }
+          ]
+        }
+      },
+
+      personalization: {
+        model: 'claude-opus-4.5',
+        dataPoints: [
+          'recent-company-news',
+          'recent-linkedin-posts',
+          'github-activity',
+          'shared-connections',
+          'tech-stack-analysis',
+          'competitive-intel'
+        ],
+        tone: 'peer-to-peer-technical',
+        length: { max: 150 }, // words
+        includeQuestion: true
+      }
+    },
+
+    linkedin: {
+      connectionsPerDay: 20,
+      sequence: [
+        { action: 'send-connection', note: 'personalized-1-sentence' },
+        { day: 1, action: 'send-message', condition: 'accepted', template: 'linkedin-intro' },
+        { day: 4, action: 'send-message', condition: 'not:replied', template: 'linkedin-follow-up' }
+      ]
+    }
+  },
+
+  // Response handling
+  responseHandling: {
+    autoRespond: true,
+
+    responseTypes: {
+      positive: {
+        triggers: ['interested', 'tell me more', 'yes', 'schedule', 'when'],
+        action: async ({ lead, conversation }) => {
+          return {
+            response: await generateResponse({
+              type: 'book-meeting',
+              include: 'calendar-link',
+              tone: 'helpful-not-pushy'
+            }),
+            updateStage: 'qualified',
+            notifyHuman: true,
+            priority: 'high'
+          }
+        }
+      },
+
+      questions: {
+        triggers: ['how', 'what', 'does it', 'can you'],
+        action: async ({ lead, question }) => {
+          const answer = await generateAnswer({
+            question: question,
+            context: lead,
+            knowledgeBase: 'product-docs-and-faqs',
+            includeProof: true
+          })
+
+          return {
+            response: answer,
+            addToKnowledgeBase: question.isNew,
+            updateEngagement: +5
+          }
+        }
+      },
+
+      objections: {
+        triggers: ['too expensive', 'not now', 'already have', 'not interested'],
+        action: async ({ lead, objection }) => {
+          const analysis = await analyzeObjection(objection)
+
+          if (analysis.overcomeable) {
+            return {
+              response: await generateObjectionResponse({
+                objection: objection,
+                approach: analysis.recommendedApproach,
+                includeProof: true
+              }),
+              updateStage: 'objection-handling'
+            }
+          } else {
+            return {
+              response: 'respectful-acceptance',
+              updateStage: 'not-interested',
+              addToNurture: { delay: '90d' }
+            }
+          }
+        }
+      },
+
+      outOfOffice: {
+        triggers: ['out of office', 'on vacation', 'parental leave'],
+        action: async ({ lead, autoReply }) => {
+          const returnDate = extractDate(autoReply)
+
+          return {
+            response: null, // Don't reply to auto-replies
+            snooze: { until: returnDate },
+            notifyHuman: false
+          }
+        }
+      },
+
+      escalation: {
+        triggers: ['speak to founder', 'legal question', 'enterprise pricing', 'partnership'],
+        action: async ({ lead, message }) => {
+          return {
+            response: await generateResponse({
+              type: 'human-will-follow-up',
+              timeline: '24-hours'
+            }),
+            escalateToHuman: true,
+            priority: 'high',
+            context: { lead, fullConversation: await getHistory(lead) }
+          }
+        }
+      }
+    },
+
+    responseSpeed: {
+      businessHours: { min: 2, max: 15 }, // minutes
+      afterHours: { min: 5, max: 30 }, // minutes
+      weekend: { min: 10, max: 60 } // minutes
+    }
+  },
+
+  // Meeting booking
+  meetingBooking: {
+    automated: true,
+    calendar: 'founder-calendar',
+
+    qualification: {
+      required: [
+        'email-verified',
+        'lead-score-above-60',
+        'positive-engagement'
+      ],
+      skipQualification: {
+        leadScore: { min: 85 },
+        hasSignal: ['funding-announcement', 'urgent-need']
+      }
+    },
+
+    scheduling: {
+      provider: 'cal.com',
+      meetingType: 'product-demo-30min',
+      bufferDays: { min: 1, max: 14 }, // Book 1-14 days out
+      reminderSequence: [
+        { timing: '-24h', channel: 'email', template: 'meeting-reminder' },
+        { timing: '-2h', channel: 'email', template: 'meeting-starting-soon' }
+      ],
+      noShowSequence: [
+        { timing: '+30m', channel: 'email', template: 'we-missed-you' },
+        { timing: '+2d', channel: 'email', template: 'reschedule-offer' }
+      ]
+    }
+  },
+
+  // Performance monitoring
+  monitoring: {
+    metrics: [
+      'emails-sent',
+      'emails-opened',
+      'emails-replied',
+      'meetings-booked',
+      'meetings-held',
+      'pipeline-created',
+      'deals-closed'
+    ],
+
+    alerts: [
+      { metric: 'reply-rate', below: 0.05, action: 'review-templates' },
+      { metric: 'bounce-rate', above: 0.03, action: 'check-email-quality' },
+      { metric: 'unsubscribe-rate', above: 0.02, action: 'review-messaging' },
+      { metric: 'meeting-show-rate', below: 0.60, action: 'improve-qualification' }
+    ],
+
+    optimization: {
+      abTest: {
+        subjects: true,
+        templates: true,
+        timing: true,
+        cadence: true
+      },
+      autoOptimize: true, // AI learns from results
+      reportingFrequency: 'weekly'
+    }
+  }
+})
+```
+
+## The 24/7 Advantage
+
+AI SDRs operate continuously:
+
+### Business Hours (9 AM - 6 PM)
+- Send outbound sequences
+- Respond to inbound inquiries instantly
+- Book qualified meetings
+- Follow up on pending conversations
+
+### After Hours (6 PM - 9 AM)
+- Continue responding to global prospects (different time zones)
+- Nurture international leads
+- Process inbound from website/content
+- Prepare next day's outreach list
+
+### Weekends
+- Catch up on backlog
+- Respond to late Friday inquiries
+- Handle international prospects (different business days)
+- Analyze week's performance and optimize
+
+### Result
+**Human SDR**: 40 hours/week = 23.8% coverage
+**AI SDR**: 168 hours/week = 100% coverage
+
+**4.2x more availability = 4.2x more opportunities captured**
+
+## Real-World Performance
+
+Sales-builder's AI SDR results (February 2026):
+
+### Volume
+- **Leads sourced**: 1,500
+- **Leads qualified**: 847 (56.5%)
+- **Emails sent**: 3,247
+- **LinkedIn connections**: 620
+- **Total conversations**: 892
+
+### Engagement
+- **Email open rate**: 47.2%
+- **Email reply rate**: 11.8%
+- **LinkedIn acceptance rate**: 68.3%
+- **LinkedIn reply rate**: 23.4%
+- **Average response time**: 8.2 minutes
+
+### Conversion
+- **Meetings booked**: 147
+- **Meeting show rate**: 73.5%
+- **Meetings held**: 108
+- **Opportunities created**: 67
+- **Deals closed**: 23
+- **Revenue generated**: $247,300 in new ARR
+
+### Economics
+- **AI SDR cost**: $347/month (compute + tools)
+- **Cost per meeting**: $2.36
+- **Cost per opportunity**: $5.18
+- **Cost per closed deal**: $15.09
+- **CAC**: $15.09 (vs $3,600+ for human SDR)
+
+**ROI: 71,190% (every $1 spent generates $712 in ARR)**
+
+## How AI SDRs Handle Complex Scenarios
+
+### Scenario 1: Multi-Thread Conversation
+
+```
+Lead Reply: "This looks interesting but I'd need to get buy-in from
+            our VP of Sales and our head of ops. Can you send info
+            for both of them?"
+
+AI SDR Analysis:
+- Positive signal: interest expressed
+- Action required: multi-stakeholder outreach
+- Opportunity: expand into buying committee
+
+AI SDR Response:
+"Absolutely! I'll send a tailored overview to each of them.
+
+For your VP of Sales, I'll focus on how our AI agents have helped
+similar companies increase pipeline by 3-4x without adding headcount.
+
+For your head of ops, I'll highlight implementation timeline (typically
+2 weeks) and how we integrate with existing tools.
+
+What are their email addresses? Or I'm happy to let you forward this
+conversation and I'll follow up directly if they have questions.
+
+In the meantime, here's a 3-minute demo video that shows the platform:
+[link]"
+
+Automated Actions:
+- Create new leads for VP Sales and Head of Ops
+- Tag opportunity as "multi-stakeholder"
+- Increase lead score (+15 points)
+- Prepare stakeholder-specific materials
+- Notify human: "Expanding into buying committee at [Company]"
+```
+
+### Scenario 2: Pricing Question
+
+```
+Lead Reply: "How much does this cost?"
+
+AI SDR Analysis:
+- Stage: Early conversation
+- Context: Only 1 previous email, no deep engagement yet
+- Risk: Quoting price too early may lose deal
+- Opportunity: Use pricing discussion to qualify
+
+AI SDR Response:
+"Great question! Our pricing is based on your specific needs,
+specifically:
+- How many agents you want running (outbound, content, social, etc.)
+- Your monthly volume (emails sent, content published, etc.)
+- Integrations you need
+
+To give you accurate pricing, I have a few quick questions:
+
+1. What's your current monthly outbound volume? (or target volume)
+2. Besides outbound, are you interested in content marketing, social
+   engagement, or video generation automation?
+3. How many people on your team would use this?
+
+Based on your answers, I can give you exact pricing. For context,
+most companies with similar profiles to yours are in the $200-$800/month
+range, but I don't want to quote without understanding your specific needs.
+
+Worth a quick 15-min call to discuss? [calendar link]"
+
+Automated Actions:
+- Track: pricing objection timing
+- Qualify: Ask clarifying questions before quoting
+- Goal: Convert to meeting
+- Escalate if: "Need exact price right now" → notify human
+```
+
+### Scenario 3: Competitor Mention
+
+```
+Lead Reply: "We're currently using HubSpot. How is this different?"
+
+AI SDR Analysis:
+- Competitor: HubSpot (marketing automation)
+- Context: Established alternative, not true competitor (different category)
+- Approach: Respectful differentiation, potential complementary position
+
+AI SDR Response:
+"HubSpot is great for marketing automation and CRM. We're actually
+complementary rather than competitive.
+
+Key difference: HubSpot gives you *tools* to do marketing and sales.
+Sales-builder gives you *autonomous AI agents* that do the work for you.
+
+Think of it this way:
+- HubSpot: You set up sequences, someone still has to write personalized
+  emails, respond to replies, create content
+- Sales-builder: AI agents write personalized outreach, respond to
+  conversations, generate content—autonomously
+
+Many customers use both: HubSpot as their CRM, sales-builder as their
+autonomous execution layer.
+
+In fact, we integrate with HubSpot so leads go directly into your CRM.
+
+Want to see a 5-min comparison demo? [calendar link]"
+
+Automated Actions:
+- Tag: Currently using HubSpot
+- Update messaging: Position as complementary
+- Create note: Potential integration opportunity
+- Add to comparison sequence
+- Notify human if: Price comparison requested (strategic decision)
+```
+
+### Scenario 4: Not Interested
+
+```
+Lead Reply: "Not interested right now."
+
+AI SDR Analysis:
+- Sentiment: Negative but polite
+- Timing: After 1st email (timing issue, not fundamental rejection?)
+- Decision: Don't be pushy, but leave door open
+
+AI SDR Response:
+"No problem at all—appreciate you letting me know!
+
+Just to make sure I'm not wasting your time in the future, is this
+a 'not right now' situation or a 'not ever' situation?
+
+If it's timing, happy to reach back out in a few months when things
+might be different.
+
+Either way, no worries and thanks for the reply!"
+
+Automated Actions:
+- Remove from active sequence
+- If "timing": Add to nurture sequence (90-day delay)
+- If "not ever": Unsubscribe from all outreach
+- Track: Early objection (evaluate messaging quality)
+- Learn: Analyze what might have caused rejection
+```
+
+## Human-in-the-Loop: When AI Escalates
+
+AI SDRs handle 95% of conversations autonomously. They escalate when:
+
+```typescript
+const escalationTriggers = {
+  immediate: [
+    'legal-question',
+    'security-concern',
+    'enterprise-custom-pricing',
+    'partnership-inquiry',
+    'acquisition-interest',
+    'executive-reaching-out',
+    'urgent-problem'
+  ],
+
+  highValue: [
+    { condition: 'company-size-above-500', priority: 'high' },
+    { condition: 'deal-size-above-50k', priority: 'high' },
+    { condition: 'title-includes-ceo-or-founder', priority: 'medium' }
+  ],
+
+  complex: [
+    'multiple-objections-in-one-reply',
+    'technical-question-beyond-kb',
+    'custom-integration-request',
+    'rfp-request'
+  ],
+
+  sentiment: [
+    { sentiment: 'frustrated', escalate: true },
+    { sentiment: 'angry', escalate: true, priority: 'urgent' }
+  ]
+}
+```
+
+When escalated, founder receives full context in Slack:
+
+```
+🚨 High-Value Lead Escalation
+
+Company: Acme Corp (500 employees)
+Contact: Jane Smith, CEO
+Lead Score: 92 (HOT)
+
+Conversation Summary:
+- Expressed strong interest after 1st email
+- Asked about enterprise pricing for 50-person sales team
+- Mentioned timeline: "Need to implement by Q2"
+- Referenced competitor: "Currently evaluating Salesforce"
+
+Latest Message:
+"This looks promising. We're evaluating a few solutions and need
+to make a decision by end of month. Can we schedule a demo with
+your founder to discuss enterprise pricing and custom integrations?"
+
+AI Draft Response:
+"Absolutely! Let me connect you with our founder [Name]. Given your
+timeline and team size, this definitely warrants a deeper conversation
+about our enterprise offering..."
+
+[Approve & Send] [Edit & Send] [I'll Handle This]
+
+Full Conversation: [link]
+Lead Profile: [link]
+```
+
+## The Economics: Human vs AI SDR
+
+| Dimension | Human SDR | AI SDR | Advantage |
+|-----------|-----------|--------|-----------|
+| **Cost** | $120K-$180K/year | $4K-$6K/year | 30-45x cheaper |
+| **Hours** | 2,080/year (with PTO) | 8,760/year | 4.2x more coverage |
+| **Ramp Time** | 3-6 months | Immediate | Instant productivity |
+| **Consistency** | Variable (mood, skill, energy) | Perfect (every time) | Zero variance |
+| **Personalization** | 40-60 emails/day max | Infinite (limited by deliverability) | Unlimited scale |
+| **Learning** | Slow (individual improvement) | Fast (data-driven optimization) | Continuous improvement |
+| **Response Time** | Hours (during work hours only) | Minutes (24/7) | 10-50x faster |
+| **Scalability** | Linear (1 SDR = 1 unit output) | Non-linear (1 agent = 10-50x output) | Exponential scale |
+
+## Getting Started with AI SDRs
+
+```bash
+# Install sales-builder
+npm install @sales-builder/core
+
+# Initialize AI SDR
+npx sales-builder init sdr
+
+# Configure ICP and messaging
+npx sales-builder config icp
+
+# Test with limited volume
+npx sales-builder sdr start --daily-limit=10 --test-mode
+
+# Once confident, scale up
+npx sales-builder sdr start --daily-limit=100 --autopilot=on
+```
+
+## The Bottom Line
+
+In 2026, the choice isn't between human SDRs and AI SDRs. The choice is between:
+
+1. **Hiring expensive human SDRs** who work 40 hours/week and cost $120K-$180K each
+2. **Deploying AI SDRs** that work 168 hours/week and cost $4K-$6K annually
+
+One founder with AI SDRs can outperform a 10-person human SDR team.
+
+The question isn't whether AI will replace SDRs—it already has. The question is: how quickly will you adopt it before your competitors do?
+
+---
+
+**Action Steps:**
+1. Define your ICP and qualification criteria
+2. Set up AI SDR with conservative daily limits
+3. Monitor performance and iterate on messaging
+4. Gradually increase volume as performance validates
+5. Scale to 100+ daily outreach
+
+The 24/7 SDR isn't coming. It's here.

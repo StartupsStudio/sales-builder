@@ -1,0 +1,507 @@
+---
+title: "Building Your Growth Stack: Content + Social + Outbound + Funnels Unified"
+description: "Learn how to build a unified growth stack where AI agents orchestrate content, social, outbound, and funnels as one system in 2026."
+date: "2026-04-23"
+author: "Sales Builder Team"
+tags: ["growth-stack", "integration", "platform"]
+---
+
+# Building Your Growth Stack: Content + Social + Outbound + Funnels Unified
+
+The traditional growth stack: 15 disconnected tools, 8 logins, 3 dashboards, zero coordination. The 2026 growth stack: One platform, AI-orchestrated, unified execution.
+
+## The Old Way: Tool Chaos
+
+**Typical SaaS Growth Stack (2024):**
+
+1. **Content:** WordPress + Copywriter freelancers
+2. **SEO:** Ahrefs + Semrush
+3. **Email:** SendGrid + Customer.io
+4. **Outbound:** Apollo + Outreach
+5. **Social:** Buffer + Hootsuite
+6. **CRM:** HubSpot or Salesforce
+7. **Analytics:** Google Analytics + Mixpanel
+8. **Video:** Vimeo + hired videographer
+9. **Forms:** Typeform
+10. **Calendar:** Calendly
+11. **Support:** Intercom
+12. **Payment:** Stripe
+13. **Docs:** DocuSign
+14. **Chat:** Slack (internal coordination)
+15. **Project Management:** Notion/Asana
+
+**Cost:** $3K-$10K/month
+**Coordination:** Manual, fragile, time-consuming
+**Visibility:** Fragmented across dashboards
+**Problem:** Nothing talks to each other
+
+## The Unified Stack: Growth-as-Platform
+
+```typescript
+import { defineUnifiedGrowth } from '@sales-builder/platform'
+
+export const growthStack = defineUnifiedGrowth({
+  // One database, all channels
+  database: 'db.sb',
+
+  // One API, all services
+  api: 'api.sb',
+
+  // All channels working together
+  channels: {
+    content: {
+      enabled: true,
+      generates: [
+        { type: 'blog', frequency: 'daily' },
+        { type: 'video', frequency: 'weekly' },
+        { type: 'newsletter', frequency: 'weekly' }
+      ],
+
+      // Content feeds other channels automatically
+      distribution: {
+        social: {
+          linkedin: 'auto-create-posts-from-blog',
+          twitter: 'auto-create-threads-from-blog',
+          reddit: 'auto-share-when-relevant'
+        },
+        email: {
+          newsletter: 'auto-compile-weekly-digest',
+          nurture: 'auto-send-relevant-content-to-leads'
+        },
+        sales: {
+          enablement: 'auto-add-to-sales-resources',
+          proposals: 'auto-include-relevant-case-studies'
+        }
+      }
+    },
+
+    social: {
+      enabled: true,
+      platforms: ['linkedin', 'twitter', 'reddit'],
+
+      // Social feeds other channels
+      intelligence: {
+        outbound: {
+          // Social engagement identifies prospects
+          trigger: 'person-engages-with-our-content',
+          action: async ({ person }) => {
+            await addToOutboundSequence({
+              person: person,
+              context: person.socialActivity,
+              personalization: 'reference-their-engagement'
+            })
+          }
+        },
+
+        content: {
+          // Social conversations suggest content topics
+          trigger: 'frequent-questions-detected',
+          action: async ({ topic, questions }) => {
+            await addToContentQueue({
+              topic: topic,
+              answering: questions,
+              priority: 'high'
+            })
+          }
+        }
+      }
+    },
+
+    outbound: {
+      enabled: true,
+      channels: ['email', 'linkedin'],
+
+      // Outbound uses content + social intelligence
+      personalization: {
+        from: {
+          content: 'reference-blog-posts-they-might-have-seen',
+          social: 'reference-their-social-activity',
+          company: 'reference-company-news',
+          tech: 'reference-their-tech-stack'
+        }
+      },
+
+      // Outbound results feed other channels
+      intelligence: {
+        content: {
+          // Common questions become content
+          trigger: 'prospect-asks-question',
+          action: async ({ question }) => {
+            if (await isCommonQuestion(question)) {
+              await createBlogPost({ answering: question })
+            }
+          }
+        },
+
+        product: {
+          // Feature requests feed product
+          trigger: 'prospect-requests-feature',
+          action: 'add-to-product-feedback'
+        }
+      }
+    },
+
+    funnels: {
+      enabled: true,
+
+      // Funnels orchestrate all channels
+      stages: {
+        visitor: {
+          sources: ['content', 'social', 'outbound'],
+
+          actions: {
+            track: 'behavior-across-all-channels',
+            score: 'based-on-omnichannel-engagement',
+            route: 'to-appropriate-channel-for-nurture'
+          }
+        },
+
+        lead: {
+          entry: 'email-captured-or-conversation-started',
+
+          orchestration: {
+            content: 'send-relevant-educational-content',
+            social: 'engage-if-active-on-social',
+            outbound: 'add-to-personalized-sequence',
+            email: 'add-to-nurture-drip'
+          }
+        },
+
+        qualified: {
+          entry: 'meets-qualification-criteria',
+
+          orchestration: {
+            outbound: 'high-priority-personalized-outreach',
+            calendar: 'send-booking-link',
+            sales: 'notify-human-for-follow-up',
+            content: 'send-case-studies-and-roi-calculator'
+          }
+        },
+
+        customer: {
+          entry: 'payment-completed',
+
+          orchestration: {
+            product: 'provision-access-immediately',
+            onboarding: 'start-automated-onboarding',
+            success: 'assign-success-manager',
+            content: 'add-to-customer-newsletter',
+            community: 'invite-to-customer-slack'
+          }
+        }
+      }
+    }
+  },
+
+  // Unified data model
+  data: {
+    // Every interaction tracked in one place
+    events: [
+      'page.viewed',
+      'content.read',
+      'video.watched',
+      'email.opened',
+      'email.replied',
+      'social.engaged',
+      'meeting.booked',
+      'proposal.viewed',
+      'payment.completed'
+    ],
+
+    // One profile per person across all channels
+    person: {
+      attributes: [
+        'name',
+        'email',
+        'company',
+        'title',
+        'tech-stack',
+        'engagement-score',
+        'lifecycle-stage',
+        'source-channel',
+        'all-interactions',
+        'content-consumed',
+        'social-activity',
+        'email-engagement',
+        'product-usage'
+      ],
+
+      computed: {
+        score: 'calculated-from-all-channel-engagement',
+        stage: 'based-on-omnichannel-behavior',
+        intent: 'inferred-from-cross-channel-signals',
+        personalization: 'synthesized-from-all-data'
+      }
+    }
+  },
+
+  // Unified intelligence
+  intelligence: {
+    // AI learns across all channels
+    learns: {
+      from: [
+        'which-content-drives-signups',
+        'which-social-posts-drive-traffic',
+        'which-email-subject-lines-get-replies',
+        'which-outbound-approaches-book-meetings',
+        'which-funnels-convert-best'
+      ],
+
+      optimizes: [
+        'content-topics-and-distribution',
+        'social-posting-times-and-formats',
+        'email-personalization-and-sequencing',
+        'funnel-transitions-and-timing'
+      ]
+    },
+
+    // AI orchestrates across channels
+    orchestration: {
+      scenario: 'person-reads-blog-post',
+
+      decisions: async ({ person, post }) => {
+        // AI decides next action across channels
+        const intent = await analyzeIntent({
+          contentConsumed: post,
+          timeOnPage: person.session.duration,
+          otherActivity: person.history
+        })
+
+        if (intent === 'high') {
+          return {
+            outbound: 'send-personalized-email-referencing-post',
+            social: 'engage-if-they-share-on-social',
+            funnel: 'move-to-qualified-stage'
+          }
+        }
+
+        if (intent === 'medium') {
+          return {
+            email: 'add-to-nurture-with-related-content',
+            social: 'monitor-for-engagement',
+            funnel: 'keep-in-lead-stage'
+          }
+        }
+
+        return {
+          analytics: 'track-content-preference',
+          funnel: 'remain-in-visitor-stage'
+        }
+      }
+    }
+  },
+
+  // Unified analytics
+  analytics: {
+    // One dashboard, all channels
+    metrics: {
+      overall: [
+        'total-reach',
+        'total-engagement',
+        'total-leads',
+        'total-customers',
+        'total-revenue',
+        'overall-roi'
+      ],
+
+      by-channel: {
+        content: ['posts-published', 'traffic', 'signups-attributed'],
+        social: ['posts-created', 'engagement-rate', 'leads-generated'],
+        outbound: ['emails-sent', 'reply-rate', 'meetings-booked'],
+        funnels: ['conversion-rates-by-stage', 'avg-time-in-stage']
+      },
+
+      cross-channel: {
+        'content-to-social': 'blog-posts-shared-on-social',
+        'social-to-outbound': 'social-engagers-added-to-outbound',
+        'outbound-to-content': 'prospects-reading-shared-content',
+        'omnichannel-conversion': 'people-engaging-across-channels'
+      }
+    },
+
+    attribution: {
+      model: 'multi-touch-across-all-channels',
+
+      example: {
+        customer: 'Acme Corp',
+        journey: [
+          { channel: 'content', action: 'read-blog-post', impact: 0.15 },
+          { channel: 'social', action: 'engaged-on-linkedin', impact: 0.10 },
+          { channel: 'outbound', action: 'received-personalized-email', impact: 0.25 },
+          { channel: 'content', action: 'watched-video', impact: 0.15 },
+          { channel: 'outbound', action: 'booked-demo', impact: 0.20 },
+          { channel: 'sales', action: 'demo-call', impact: 0.15 }
+        ],
+        totalCredit: 1.0,
+        attribution: 'distributed-across-touchpoints'
+      }
+    }
+  }
+})
+```
+
+## Real Example: Omnichannel Journey
+
+**Sarah, CTO at 50-person SaaS:**
+
+### Day 1: Content Discovery
+```
+9:47 AM: Sarah searches "AI sales automation" → finds our blog post
+10:23 AM: Reads "The 24/7 SDR: AI Agents That Never Sleep"
+10:31 AM: Clicks "Learn More" → lands on homepage
+10:34 AM: Leaves without signing up
+
+AI Action:
+✓ Track: Sarah's visit, content consumed, time on page
+✓ Score: +15 (engaged content consumer)
+✓ Enrich: CTO, 50-person company, uses TypeScript
+✓ Decision: High-value visitor, add to omnichannel nurture
+```
+
+### Day 3: Social Engagement
+```
+2:15 PM: Sarah sees our LinkedIn post (reposted from blog)
+2:17 PM: Comments: "Interesting take on autonomous outbound"
+2:18 PM: We reply with thoughtful addition to her comment
+
+AI Action:
+✓ Recognize: Same person from blog visit
+✓ Score: +25 (social engagement + prior content)
+✓ Decision: High intent, add to outbound sequence
+✓ Prepare: Personalized email referencing both interactions
+```
+
+### Day 4: Outbound Contact
+```
+9:12 AM: Sarah receives personalized email
+
+"Hi Sarah,
+
+Saw your comment on our LinkedIn post about autonomous outbound—
+glad it resonated!
+
+Quick question since you're using TypeScript (saw your GitHub):
+are you handling sales outbound manually or have you automated it?
+
+Either way, thought you'd find this relevant: [link to case study
+of similar company]
+
+Worth a quick chat?"
+
+AI Action:
+✓ Personalized based on: blog reading + social comment + tech stack
+✓ Sent: 9 AM her timezone (optimal time based on data)
+✓ Track: Open, clicks, reply
+```
+
+### Day 4 (cont): Email Response
+```
+2:47 PM: Sarah replies: "Manually right now, trying to figure out
+how to scale without hiring. Open to chat."
+
+AI Action (within 2 minutes):
+✓ Detect: Positive response, qualified interest
+✓ Score: +40 (qualified lead)
+✓ Send: Calendar link + confirmation email
+✓ Notify: Founder on Slack (high-value lead)
+✓ Prepare: Custom demo based on her needs
+✓ Update: Move to "qualified" stage in funnel
+```
+
+### Day 5: Demo
+```
+11:00 AM: Demo call happens
+
+During call AI:
+✓ Takes notes
+✓ Suggests relevant features based on her questions
+✓ Calculates ROI for her company size
+✓ Drafts proposal in background
+
+11:35 AM: Call ends, AI immediately:
+✓ Sends recap email with notes
+✓ Sends custom proposal with ROI
+✓ Shares relevant case study via email
+✓ Posts customer success story to social (visibility)
+```
+
+### Day 5 (cont): Decision
+```
+4:23 PM: Sarah signs contract
+
+AI Action (instant):
+✓ Process payment
+✓ Provision access
+✓ Send welcome email + onboarding guide
+✓ Add to customer Slack
+✓ Add to customer newsletter
+✓ Schedule kickoff call
+✓ Create success manager task
+✓ Update all systems (CRM, analytics, billing)
+✓ Celebrate on social (with permission)
+```
+
+**Total: 5 days from discovery to customer, orchestrated across 4 channels**
+
+## The Unified Stack Architecture
+
+```
+┌─────────────────────────────────────────────┐
+│           Unified Intelligence Layer         │
+│  (AI agents orchestrating all channels)      │
+└─────────────────────────────────────────────┘
+                      │
+        ┌─────────────┼─────────────┐
+        │             │             │
+   ┌────▼────┐   ┌───▼────┐   ┌───▼────┐
+   │ Content │   │ Social │   │Outbound│
+   │ Engine  │   │ Engine │   │ Engine │
+   └────┬────┘   └───┬────┘   └───┬────┘
+        │            │            │
+        └──────┬─────┴──────┬─────┘
+               │            │
+        ┌──────▼────────────▼──────┐
+        │    Unified Data Layer     │
+        │  (One profile per person) │
+        └───────────────────────────┘
+                     │
+        ┌────────────▼────────────┐
+        │   Unified Analytics      │
+        │ (One dashboard, all data)│
+        └─────────────────────────┘
+```
+
+## Cost Comparison
+
+| Component | Traditional Stack | Unified Stack | Savings |
+|-----------|------------------|---------------|---------|
+| Content tools | $297/mo | Included | $297 |
+| SEO tools | $399/mo | Included | $399 |
+| Social tools | $149/mo | Included | $149 |
+| Email/outbound | $599/mo | Included | $599 |
+| CRM | $450/mo | Included | $450 |
+| Analytics | $199/mo | Included | $199 |
+| Video | $99/mo | Included | $99 |
+| Other tools | $508/mo | Included | $508 |
+| **Total** | **$2,700/mo** | **$647/mo** | **$2,053/mo (76%)** |
+
+Plus: Elimination of integration costs, manual coordination, duplicate data entry.
+
+## The Bottom Line
+
+In 2026, growth isn't about having the most tools—it's about having the most unified system.
+
+One platform, one database, one intelligence layer, infinite orchestration.
+
+The result: Channels working together instead of in silos, 10x better attribution, 76% lower costs.
+
+---
+
+**Action Steps:**
+1. Audit your current tool stack (cost + coordination overhead)
+2. Identify integration gaps and manual handoffs
+3. Migrate to unified platform (sales-builder)
+4. Configure AI orchestration across channels
+5. Monitor omnichannel attribution and optimize
+
+The age of 15-tool stacks is over. The age of unified growth platforms is here.

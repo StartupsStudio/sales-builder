@@ -1,0 +1,499 @@
+---
+title: "Analytics for Autonomous Growth: What to Measure When AI Runs Your Funnel"
+description: "Learn which metrics matter for AI-powered growth and how to measure success when autonomous agents run your sales and marketing in 2026."
+date: "2026-05-28"
+author: "Sales Builder Team"
+tags: ["analytics", "metrics", "growth-measurement"]
+---
+
+# Analytics for Autonomous Growth: What to Measure When AI Runs Your Funnel
+
+Traditional metrics: Opens, clicks, conversions.
+AI-era metrics: Agent effectiveness, channel orchestration, omnichannel attribution.
+
+Here's what to measure when AI runs your growth.
+
+## The Shift in Metrics
+
+**Traditional Analytics (Human-Driven):**
+- Individual channel performance
+- Last-touch attribution
+- Campaign ROI
+- Human productivity (emails sent/day)
+
+**Autonomous Analytics (AI-Driven):**
+- Cross-channel orchestration
+- Multi-touch attribution
+- Agent effectiveness
+- System intelligence (AI learning rate)
+
+## The Autonomous Growth Dashboard
+
+```typescript
+import { defineAnalytics } from '@sales-builder/analytics'
+
+export const autonomousAnalytics = defineAnalytics({
+  // Level 1: Business Outcomes
+  businessMetrics: {
+    // What actually matters
+    revenue: {
+      mrr: 'monthly-recurring-revenue',
+      arr: 'annual-recurring-revenue',
+      growth: 'month-over-month-growth-rate',
+      target: { mrr: 50000, growthRate: 0.15 } // 15% MoM
+    },
+
+    customers: {
+      total: 'active-paying-customers',
+      new: 'new-customers-this-month',
+      churned: 'customers-lost-this-month',
+      netGrowth: 'new-minus-churned',
+      target: { new: 40, churnRate: 0.03 } // 3% monthly churn
+    },
+
+    profitability: {
+      revenue: 'total-monthly-revenue',
+      costs: 'total-monthly-costs',
+      profit: 'revenue-minus-costs',
+      margin: 'profit-divided-by-revenue',
+      target: { margin: 0.70 } // 70% profit margin
+    },
+
+    unitEconomics: {
+      cac: 'customer-acquisition-cost',
+      ltv: 'lifetime-value',
+      ltvCacRatio: 'ltv-divided-by-cac',
+      paybackPeriod: 'months-to-recover-cac',
+      target: { ltvCacRatio: 30, paybackPeriod: 1 } // 30:1 ratio, 1mo payback
+    }
+  },
+
+  // Level 2: AI Agent Performance
+  agentMetrics: {
+    // How well are AI agents performing?
+    content: {
+      postsPublished: { actual: 427, target: 400, status: '✓' },
+      avgQualityScore: { actual: 0.89, target: 0.85, status: '✓' },
+      seoRankings: { page1: 147, target: 100, status: '✓' },
+      organicTraffic: { actual: 28473, target: 20000, status: '✓' },
+      trafficToSignup: { actual: 0.037, target: 0.03, status: '✓' } // 3.7%
+    },
+
+    outbound: {
+      emailsSent: { actual: 8473, target: 8000, status: '✓' },
+      deliveryRate: { actual: 0.973, target: 0.95, status: '✓' },
+      openRate: { actual: 0.427, target: 0.35, status: '✓' },
+      replyRate: { actual: 0.134, target: 0.10, status: '✓' },
+      meetingsBooked: { actual: 147, target: 120, status: '✓' }
+    },
+
+    social: {
+      postsCreated: { actual: 847, target: 600, status: '✓' },
+      engagements: { actual: 12847, target: 10000, status: '✓' },
+      followers: { growth: 2847, target: 2000, status: '✓' },
+      profileVisits: { actual: 18473, target: 15000, status: '✓' },
+      inboundLeads: { actual: 247, target: 200, status: '✓' }
+    },
+
+    video: {
+      videosCreated: { actual: 34, target: 32, status: '✓' },
+      totalViews: { actual: 284732, target: 200000, status: '✓' },
+      avgWatchTime: { actual: 0.67, target: 0.60, status: '✓' }, // 67%
+      subscribers: { growth: 3847, target: 3000, status: '✓' },
+      trafficFromVideo: { actual: 8473, target: 6000, status: '✓' }
+    },
+
+    // AI learning metrics
+    intelligence: {
+      modelAccuracy: { actual: 0.912, target: 0.90, status: '✓' },
+      predictionQuality: { actual: 0.847, target: 0.80, status: '✓' },
+      optimizationCycles: { actual: 847, target: 500, status: '✓' },
+      humanOverrideRate: { actual: 0.047, target: 0.10, status: '✓' } // Lower is better
+    }
+  },
+
+  // Level 3: Channel Orchestration
+  orchestrationMetrics: {
+    // How well are channels working together?
+    crossChannel: {
+      // Multi-touch journeys
+      avgTouchpoints: { actual: 5.7, insight: 'Customers touch 5-6 times before buying' },
+      avgChannels: { actual: 3.2, insight: 'Customers engage across 3+ channels' },
+      avgDuration: { actual: 18, insight: '18 days from first touch to customer' },
+
+      // Attribution
+      attribution: {
+        content: 0.28, // 28% of credit
+        social: 0.19,
+        outbound: 0.31,
+        video: 0.12,
+        referral: 0.10
+      },
+
+      // Journey patterns
+      commonPaths: [
+        {
+          path: 'blog → social → outbound → demo → customer',
+          frequency: 0.23, // 23% of customers
+          avgDays: 14,
+          conversionRate: 0.34
+        },
+        {
+          path: 'social → blog → email → trial → customer',
+          frequency: 0.19,
+          avgDays: 21,
+          conversionRate: 0.28
+        },
+        {
+          path: 'outbound → blog → demo → customer',
+          frequency: 0.16,
+          avgDays: 12,
+          conversionRate: 0.41
+        }
+      ]
+    },
+
+    // Channel synergies
+    synergies: {
+      'content-boosts-outbound': {
+        metric: 'reply-rate-after-reading-content',
+        withContent: 0.187, // 18.7% reply rate
+        withoutContent: 0.094, // 9.4% reply rate
+        lift: '99% improvement'
+      },
+
+      'social-warms-outbound': {
+        metric: 'reply-rate-after-social-engagement',
+        withSocial: 0.234,
+        withoutSocial: 0.112,
+        lift: '109% improvement'
+      },
+
+      'video-accelerates-demos': {
+        metric: 'demo-to-close-rate',
+        watchedVideo: 0.47, // 47% close rate
+        noVideo: 0.28, // 28% close rate
+        lift: '68% improvement'
+      }
+    }
+  },
+
+  // Level 4: Funnel Performance
+  funnelMetrics: {
+    // Stage-by-stage analysis
+    stages: {
+      visitor: {
+        entered: 84732,
+        source: {
+          organic: 0.42,
+          social: 0.28,
+          outbound: 0.19,
+          referral: 0.11
+        }
+      },
+
+      lead: {
+        entered: 8473, // 10% of visitors
+        conversionRate: 0.10,
+        avgTimeFromVisitor: '3.2 days',
+        topSources: ['blog-post', 'demo-video', 'outbound-email']
+      },
+
+      qualified: {
+        entered: 2847, // 33.6% of leads
+        conversionRate: 0.336,
+        avgTimeFromLead: '8.7 days',
+        qualificationSignals: ['demo-request', 'pricing-page', 'multiple-visits']
+      },
+
+      demo: {
+        entered: 1247, // 43.8% of qualified
+        conversionRate: 0.438,
+        avgTimeFromQualified: '2.1 days',
+        showRate: 0.734 // 73.4% show up
+      },
+
+      customer: {
+        entered: 427, // 34.2% of demos
+        conversionRate: 0.342,
+        avgTimeFromDemo: '4.8 days',
+        avgDealSize: 8473
+      }
+    },
+
+    // Bottleneck analysis
+    bottlenecks: [
+      {
+        stage: 'visitor-to-lead',
+        conversionRate: 0.10,
+        industry-benchmark: 0.05,
+        status: 'performing-well',
+        action: 'maintain'
+      },
+      {
+        stage: 'qualified-to-demo',
+        conversionRate: 0.438,
+        industry-benchmark: 0.50,
+        status: 'below-benchmark',
+        action: 'optimize-demo-booking-flow',
+        aiFinding: 'Long time between qualification and demo booking. Recommend immediate calendar link in qual email.'
+      }
+    ],
+
+    // Velocity
+    velocity: {
+      avgDaysVisitorToCustomer: 18.9,
+      target: 14,
+      status: 'needs-improvement',
+      impact: 'Every day faster = 7% more customers (less drop-off)'
+    }
+  },
+
+  // Level 5: Economic Efficiency
+  efficiencyMetrics: {
+    // Cost per outcome
+    costs: {
+      perVisitor: 0.08, // $0.08 per visitor
+      perLead: 0.84, // $0.84 per lead
+      perQualified: 2.51, // $2.51 per qualified lead
+      perDemo: 5.73, // $5.73 per demo
+      perCustomer: 16.74, // $16.74 CAC
+      target: { perCustomer: 50 },
+      status: 'exceptional' // 67% below target
+    },
+
+    // ROI by channel
+    channelROI: {
+      content: {
+        cost: 2880, // per month
+        customersAttributed: 120,
+        revenue: 14160,
+        roi: 4.92 // 492% ROI
+      },
+
+      outbound: {
+        cost: 4320,
+        customersAttributed: 133,
+        revenue: 15694,
+        roi: 3.63
+      },
+
+      social: {
+        cost: 960,
+        customersAttributed: 81,
+        revenue: 9558,
+        roi: 9.96 // Highest ROI
+      },
+
+      video: {
+        cost: 1920,
+        customersAttributed: 51,
+        revenue: 6018,
+        roi: 3.13
+      }
+    },
+
+    // AI efficiency
+    aiEfficiency: {
+      costPerTask: {
+        emailWritten: 0.15,
+        blogPostWritten: 2.40,
+        videoCreated: 20.00,
+        socialPostCreated: 0.08,
+        leadQualified: 0.12
+      },
+
+      humanEquivalent: {
+        emailWritten: 15.00, // Human cost
+        savingsPerEmail: 14.85, // 99% savings
+        emailsPerMonth: 8473,
+        monthlySavings: 125828 // $125K saved vs human writers
+      }
+    }
+  }
+})
+```
+
+## The Real-Time Dashboard
+
+```typescript
+const realTimeDashboard = {
+  // Top-line metrics (always visible)
+  topLine: {
+    mrr: { current: 47320, growth: '+12.4%', trend: '↑' },
+    customers: { current: 427, new: 34, churned: 3 },
+    profit: { current: 33124, margin: '70%' },
+    cac: { current: 16.74, target: 50, status: 'exceptional' }
+  },
+
+  // AI agent health
+  agents: {
+    content: { status: 'healthy', tasksCompleted: 427, successRate: 0.91 },
+    outbound: { status: 'healthy', tasksCompleted: 8473, successRate: 0.89 },
+    social: { status: 'needs-attention', tasksCompleted: 847, successRate: 0.74 },
+    video: { status: 'healthy', tasksCompleted: 34, successRate: 0.94 }
+  },
+
+  // Alerts
+  alerts: [
+    {
+      type: 'opportunity',
+      message: 'Social engagement up 47% this week—recommend increasing social budget',
+      action: 'review-social-performance'
+    },
+    {
+      type: 'warning',
+      message: 'Demo show-rate dropped to 68% (from 73%)—investigate',
+      action: 'review-recent-demos'
+    }
+  ],
+
+  // AI insights
+  insights: [
+    {
+      finding: 'Prospects who watch video before demo are 68% more likely to close',
+      recommendation: 'Send video in demo confirmation email',
+      expectedImpact: '+23 customers/month',
+      implementation: 'one-click-apply'
+    },
+    {
+      finding: 'Reply rate highest on Tue/Wed 10-11 AM recipient timezone',
+      recommendation: 'Shift outbound schedule to optimize timing',
+      expectedImpact: '+18% reply rate',
+      implementation: 'one-click-apply'
+    }
+  ]
+}
+```
+
+## What NOT to Measure
+
+**Vanity Metrics (Don't Obsess):**
+- Total followers (unless converting)
+- Total page views (unless converting)
+- Email list size (unless engaged)
+- Posts published (unless driving results)
+
+**Focus on:**
+- Followers who engage
+- Page views that convert
+- Email subscribers who buy
+- Posts that drive revenue
+
+## Weekly Review Checklist
+
+```typescript
+const weeklyReview = {
+  // 30-minute weekly review
+  checks: [
+    {
+      metric: 'MRR growth',
+      question: 'Are we growing 10-15% MoM?',
+      ifNo: 'Analyze: CAC up? Conversion down? Churn up?'
+    },
+
+    {
+      metric: 'AI agent performance',
+      question: 'Are all agents meeting targets?',
+      ifNo: 'Which agent underperforming? Why? Fix or replace?'
+    },
+
+    {
+      metric: 'Channel performance',
+      question: 'Which channels over/underperforming?',
+      ifNo: 'Shift budget from underperforming to overperforming'
+    },
+
+    {
+      metric: 'Funnel bottlenecks',
+      question: 'Where are prospects dropping off?',
+      ifNo: 'Optimize that stage—biggest impact on revenue'
+    },
+
+    {
+      metric: 'Unit economics',
+      question: 'Is CAC staying low? LTV:CAC ratio healthy?',
+      ifNo: 'Problem with acquisition cost or retention—dig in'
+    }
+  ],
+
+  actions: [
+    'Apply AI recommendations (1-click)',
+    'Adjust budgets based on ROI',
+    'Fix identified bottlenecks',
+    'Double down on what's working'
+  ]
+}
+```
+
+## Monthly Deep Dive
+
+```typescript
+const monthlyDeepDive = {
+  // 2-hour monthly analysis
+  sections: {
+    business: {
+      review: [
+        'Revenue vs target',
+        'Customer growth vs target',
+        'Profitability vs target',
+        'Runway (if not profitable)'
+      ],
+      decision: 'Stay course or pivot strategy?'
+    },
+
+    channels: {
+      review: [
+        'Content: Traffic, rankings, conversions',
+        'Outbound: Volume, reply rate, meetings',
+        'Social: Engagement, followers, leads',
+        'Video: Views, watch time, conversions'
+      ],
+      decision: 'Which channels to scale? Which to cut?'
+    },
+
+    optimization: {
+      review: [
+        'What did AI optimize this month?',
+        'What did we learn about our ICP?',
+        'Which experiments worked/failed?',
+        'What should we test next month?'
+      ],
+      decision: 'What to try, what to stop, what to double-down?'
+    },
+
+    competition: {
+      review: [
+        'What are competitors doing?',
+        'Where are we winning?',
+        'Where are we losing?',
+        'What should we steal/counter?'
+      ],
+      decision: 'Strategic adjustments needed?'
+    }
+  }
+}
+```
+
+## The Bottom Line
+
+In 2026, analytics for AI-powered growth focus on:
+
+1. **Business outcomes** (MRR, customers, profit) over vanity metrics
+2. **AI agent effectiveness** (quality, learning, autonomy)
+3. **Cross-channel orchestration** (multi-touch attribution, synergies)
+4. **Economic efficiency** (CAC, LTV:CAC, channel ROI)
+5. **Continuous optimization** (AI recommendations, bottleneck fixes)
+
+The result: Clear visibility into what's working, what's not, and what to do about it.
+
+---
+
+**Action Steps:**
+1. Set up comprehensive analytics dashboard
+2. Define targets for key metrics
+3. Review weekly (30 min) and monthly (2 hours)
+4. Apply AI optimization recommendations
+5. Double down on what's working, cut what's not
+
+The age of gut-feel growth is over. The age of data-driven, AI-optimized growth is here.
