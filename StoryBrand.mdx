@@ -1,0 +1,191 @@
+---
+$type: StoryBrand
+$id: https://sales.builder/storybrand
+name: Sales Builder
+tagline: Autonomous Sales & Growth for Founders
+oneLiner: Sales Builder orchestrates every sales and growth channel—from launch to content marketing, SEO/AEO, social engagement, video generation, email outbound, and nurturing funnels—all through a simple, elegant API.
+---
+
+# StoryBrand Framework: Sales Builder
+
+## 1. Character (The Hero)
+
+**Who is our customer?**
+
+The Founder, Solopreneur, or Growth Lead who needs to drive sales without building a sales team.
+
+**What do they want?**
+
+- Launch products that get noticed
+- Generate consistent inbound leads
+- Run outbound campaigns without manual effort
+- Convert prospects through automated nurturing
+- Scale growth across every channel simultaneously
+
+## 2. Problem
+
+### External Problem (Tangible)
+
+"I need to be everywhere—blogging, tweeting, emailing, making videos, responding to leads—but I'm just one person with 24 hours in a day."
+
+### Internal Problem (Emotional)
+
+"Sales feels overwhelming. I'm a builder, not a salesperson. Every hour spent on outreach is an hour not spent on product."
+
+### Philosophical Problem
+
+In the age of AI, founders shouldn't have to choose between building and selling. Growth should be as programmable as infrastructure.
+
+### The Villain
+
+**Manual Sales Processes** — The endless cycle of writing content, scheduling posts, sending emails, following up, and tracking leads that burns out founders and limits growth.
+
+## 3. Guide (The Brand)
+
+**Position:** We've built autonomous workflows that handle every aspect of sales and growth so founders can focus on building.
+
+**Empathy:** We've been founders too. We know the pain of juggling product development with the constant pressure to generate revenue.
+
+**Authority:**
+
+- Unified API for all sales and growth channels
+- Battle-tested workflows powering Startups.Studio portfolio
+- Integration with api.sb and db.sb for seamless data management
+- AI-native architecture built on primitives.org.ai
+
+## 4. Plan (The Path)
+
+### Step 1: Launch
+
+Start with a launch that gets attention—Product Hunt, social announcements, email to your list.
+
+```typescript
+import { Launch } from 'sales-builder'
+
+const launch = Launch.create({
+  product: 'MyStartup',
+  date: '2024-03-01',
+  channels: ['producthunt', 'twitter', 'linkedin', 'email']
+})
+
+await launch.execute()
+```
+
+### Step 2: Attract
+
+Build consistent inbound through content, SEO/AEO, and social presence.
+
+```typescript
+import { Content, SEO, Social } from 'sales-builder'
+
+// Blog posts, optimized for AI search
+await Content.generate({
+  type: 'blog',
+  topic: 'How to solve {problem}',
+  seo: true,
+  aeo: true  // AI Engine Optimization
+})
+
+// Social engagement
+await Social.engage({
+  platforms: ['twitter', 'linkedin'],
+  style: 'helpful',
+  frequency: 'daily'
+})
+```
+
+### Step 3: Convert
+
+Nurture prospects through automated funnels and personalized outreach.
+
+```typescript
+import { Funnel, Outbound } from 'sales-builder'
+
+const funnel = Funnel.create({
+  name: 'trial-to-paid',
+  stages: ['awareness', 'interest', 'trial', 'conversion'],
+  automation: true
+})
+
+await Outbound.campaign({
+  target: 'icp-matches',
+  channels: ['email', 'linkedin'],
+  sequence: ['intro', 'value', 'social-proof', 'offer']
+})
+```
+
+## 5. Call to Action
+
+**Direct CTA:** Start Selling → `npx sales-builder init`
+
+**Transitional CTA:** See the workflows at api.sb/sales
+
+## 6. Success (What's at Stake)
+
+**Success looks like:**
+
+- Launch with impact across multiple channels simultaneously
+- Wake up to inbound leads from content published while you slept
+- Consistent pipeline growth without manual outreach
+- Convert prospects through intelligent, personalized nurturing
+- Scale revenue while staying focused on product
+
+**Transformation:**
+
+From: Spending half your time on sales activities
+To: Sales running autonomously while you build
+
+## 7. Failure (What We Help Them Avoid)
+
+**Failure looks like:**
+
+- Great products that nobody knows about
+- Founders burned out from manual sales work
+- Inconsistent growth that stalls when you focus on product
+- Lost leads from slow follow-up
+- Competitors winning because they ship and sell faster
+
+## 8. Brand Identity
+
+**Voice:** Empowering, practical, growth-focused
+
+**Tone:** Confident, supportive, results-oriented
+
+**Key Messages:**
+
+1. "Growth-as-Code. Sales on autopilot."
+2. "Every channel. One API. Zero manual work."
+3. "Build your product. We'll build your pipeline."
+
+## 9. Core Capabilities
+
+| Capability | Description | Endpoint |
+|------------|-------------|----------|
+| **Launch** | Coordinated multi-channel product launches | `api.sb/launch` |
+| **Content** | Blog posts, articles, and long-form content | `api.sb/content` |
+| **SEO/AEO** | Search and AI engine optimization | `api.sb/seo` |
+| **Social** | Posting, engagement, and community building | `api.sb/social` |
+| **Video** | YouTube, TikTok, and short-form video generation | `api.sb/video` |
+| **Presentations** | Pitch decks and sales presentations | `api.sb/presentations` |
+| **Email Outbound** | Cold outreach and sequences | `api.sb/outbound/email` |
+| **Social Outbound** | LinkedIn and Twitter outreach | `api.sb/outbound/social` |
+| **Inbound** | Lead capture and response | `api.sb/inbound` |
+| **Funnels** | Nurturing sequences and conversion paths | `api.sb/funnels` |
+
+## 10. Messaging by Audience
+
+### For Solo Founders
+
+"You can't be everywhere at once—but your AI sales team can. Sales Builder runs continuous growth campaigns across every channel while you focus on what you do best: building."
+
+### For Growth Teams
+
+"Multiply your output. Sales Builder handles the repetitive work—content creation, social posting, email sequences, follow-ups—so your team can focus on strategy and high-value conversations."
+
+### For Startup Studios
+
+"Scale portfolio growth systematically. Each startup gets autonomous sales workflows from day one. Centralized analytics, decentralized execution."
+
+### For Technical Founders
+
+"Growth-as-Code with a simple API. Define your ICP, set your channels, configure your funnels—then let the automation run. No sales experience required."

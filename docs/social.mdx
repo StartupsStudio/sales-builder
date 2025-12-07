@@ -1,0 +1,274 @@
+---
+title: Social Media
+description: Automated posting, engagement, and community building
+---
+
+# Social Media
+
+Build your social presence with automated posting, engagement, and community building.
+
+## Overview
+
+The social channel handles:
+
+- Multi-platform posting
+- Content scheduling
+- Engagement automation
+- Thread generation
+- Community building
+- Analytics
+
+## Basic Usage
+
+```typescript
+import { Social } from 'sales-builder/channels'
+
+await Social.post({
+  platforms: ['twitter', 'linkedin'],
+  content: 'Just shipped a new feature! 🚀',
+  schedule: 'optimal'
+})
+```
+
+## Configuration
+
+```typescript
+sales.configure({
+  social: {
+    platforms: {
+      twitter: {
+        enabled: true,
+        handle: '@mystartup',
+        style: 'casual',
+        frequency: 'daily'
+      },
+      linkedin: {
+        enabled: true,
+        page: 'mystartup',
+        style: 'professional',
+        frequency: '3x/week'
+      }
+    },
+    engagement: {
+      enabled: true,
+      responseTime: '< 1 hour',
+      style: 'helpful'
+    },
+    scheduling: {
+      timezone: 'America/Los_Angeles',
+      optimalTimes: true
+    }
+  }
+})
+```
+
+## Posting
+
+### Single Post
+
+```typescript
+await Social.post({
+  platforms: ['twitter', 'linkedin'],
+  content: 'Your message here',
+  media: ['image.png'],
+  schedule: '2024-03-01T10:00:00Z'
+})
+```
+
+### Platform-Specific Content
+
+```typescript
+await Social.post({
+  twitter: {
+    content: 'Short and punchy 🔥',
+    hashtags: ['buildinpublic']
+  },
+  linkedin: {
+    content: 'Longer, more professional version with context...',
+    hashtags: ['startups', 'growth']
+  }
+})
+```
+
+### Thread Generation
+
+```typescript
+await Social.thread({
+  platform: 'twitter',
+  topic: '10 lessons from building {product}',
+  length: 10,
+  style: 'storytelling',
+  cta: 'last'                    // CTA in last tweet
+})
+```
+
+### Carousel Posts
+
+```typescript
+await Social.carousel({
+  platform: 'linkedin',
+  topic: 'The complete guide to {topic}',
+  slides: 8,
+  style: 'educational'
+})
+```
+
+## Scheduling
+
+### Optimal Timing
+
+```typescript
+await Social.post({
+  content: '...',
+  schedule: 'optimal'            // AI determines best time
+})
+```
+
+### Content Calendar
+
+```typescript
+const calendar = await Social.calendar({
+  weeks: 4,
+  platforms: ['twitter', 'linkedin'],
+  themes: {
+    monday: 'tips',
+    wednesday: 'behind-the-scenes',
+    friday: 'wins'
+  },
+  frequency: {
+    twitter: 'daily',
+    linkedin: '3x/week'
+  }
+})
+
+await calendar.schedule()
+```
+
+## Engagement
+
+### Auto-Reply
+
+```typescript
+await Social.engage({
+  platforms: ['twitter'],
+  triggers: ['mention', 'reply', 'dm'],
+  style: 'helpful',
+  responseTime: '< 30min',
+  handoff: {
+    conditions: ['support-request', 'negative-sentiment'],
+    notify: 'slack'
+  }
+})
+```
+
+### Proactive Engagement
+
+```typescript
+await Social.engage({
+  platforms: ['twitter'],
+  type: 'proactive',
+  topics: ['#buildinpublic', '#indiehackers'],
+  actions: ['like', 'reply', 'retweet'],
+  frequency: '10/day',
+  style: 'helpful-not-salesy'
+})
+```
+
+### Community Building
+
+```typescript
+await Social.community({
+  platform: 'twitter',
+  lists: {
+    'customers': { engage: 'high' },
+    'influencers': { engage: 'medium' },
+    'prospects': { engage: 'low' }
+  },
+  actions: {
+    'customers': ['like', 'reply', 'retweet'],
+    'influencers': ['like', 'thoughtful-reply'],
+    'prospects': ['like']
+  }
+})
+```
+
+## Content Types
+
+### Build in Public
+
+```typescript
+await Social.buildinpublic({
+  type: 'update',
+  metrics: {
+    mrr: 5000,
+    users: 100,
+    change: '+20%'
+  },
+  story: 'This week we...'
+})
+```
+
+### Product Updates
+
+```typescript
+await Social.announcement({
+  type: 'feature',
+  title: 'New: Dark Mode',
+  description: 'You asked, we delivered...',
+  media: 'demo.gif'
+})
+```
+
+### User-Generated Content
+
+```typescript
+await Social.ugc({
+  type: 'testimonial',
+  source: {
+    platform: 'twitter',
+    query: '@mystartup love'
+  },
+  action: 'retweet-with-comment',
+  comment: 'Thanks for the love! 🙏'
+})
+```
+
+## Analytics
+
+```typescript
+const analytics = await Social.analytics({
+  platforms: ['twitter', 'linkedin'],
+  period: 'last-30-days',
+  metrics: ['impressions', 'engagement', 'followers', 'clicks']
+})
+
+// Best performing content
+const topPosts = await Social.top({
+  by: 'engagement',
+  limit: 10
+})
+```
+
+## API
+
+### `Social.post(options)`
+
+Create a post.
+
+### `Social.thread(options)`
+
+Generate a thread.
+
+### `Social.engage(options)`
+
+Configure engagement automation.
+
+### `Social.analytics(options)`
+
+Get social analytics.
+
+## Related
+
+- [Content Marketing](/docs/content)
+- [Video Generation](/docs/video)
+- [Launch Orchestration](/docs/launch)

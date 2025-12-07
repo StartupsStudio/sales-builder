@@ -1,0 +1,250 @@
+---
+title: Launch Orchestration
+description: Coordinate multi-channel product launches
+---
+
+# Launch Orchestration
+
+Execute coordinated launches across Product Hunt, social media, email, and more.
+
+## Overview
+
+Launch orchestration handles:
+
+- Product Hunt launches
+- Social media announcements
+- Email campaigns to your list
+- Influencer outreach
+- Press and PR
+- Timing coordination
+
+## Basic Usage
+
+```typescript
+import { Launch } from 'sales-builder'
+
+const launch = Launch.create({
+  product: 'MyStartup',
+  date: '2024-03-01',
+  channels: ['producthunt', 'twitter', 'linkedin', 'email']
+})
+
+await launch.execute()
+```
+
+## Configuration
+
+```typescript
+const launch = Launch.create({
+  product: 'MyStartup',
+  date: '2024-03-01',
+  timezone: 'America/Los_Angeles',
+  channels: ['producthunt', 'twitter', 'linkedin', 'email', 'press']
+})
+
+launch.configure({
+  producthunt: {
+    tagline: 'Build autonomous startups with code',
+    description: 'Full description...',
+    topics: ['Developer Tools', 'Artificial Intelligence'],
+    makers: ['@founder'],
+    images: ['hero.png', 'demo.gif', 'features.png'],
+    video: 'demo.mp4',
+    firstComment: 'Hey PH! Excited to share...'
+  },
+  twitter: {
+    announcement: 'We just launched on @ProductHunt! 🚀',
+    thread: {
+      enabled: true,
+      length: 8
+    },
+    schedule: ['00:00', '06:00', '12:00', '18:00']
+  },
+  linkedin: {
+    post: 'Excited to announce...',
+    article: true
+  },
+  email: {
+    list: 'subscribers',
+    subject: '🚀 We just launched!',
+    template: 'launch-announcement'
+  },
+  press: {
+    outlets: ['techcrunch', 'theverge'],
+    embargo: '2024-03-01T00:00:00Z'
+  }
+})
+```
+
+## Launch Timeline
+
+```typescript
+// Automatic timeline generation
+const timeline = await launch.timeline()
+
+// Returns:
+// T-7 days: Warm up social accounts
+// T-3 days: Tease announcement
+// T-1 day: Email preview to VIPs
+// T-0 00:00: Product Hunt goes live
+// T-0 00:01: Twitter announcement
+// T-0 00:05: LinkedIn post
+// T-0 06:00: Email blast
+// T-0 12:00: Twitter thread
+// ... etc
+```
+
+## Product Hunt Optimization
+
+```typescript
+launch.configure({
+  producthunt: {
+    // Optimal posting time (Tuesday-Thursday, 00:01 PST)
+    time: 'optimal',
+
+    // Engage with comments
+    engagement: {
+      enabled: true,
+      responseTime: '< 15min',
+      thankVoters: true
+    },
+
+    // Hunter coordination
+    hunter: {
+      username: '@hunter',
+      notify: true
+    },
+
+    // Supporter outreach
+    supporters: {
+      list: 'ph-supporters',
+      notifyBefore: '1h',
+      message: 'We\'re live! Would love your support 🙏'
+    }
+  }
+})
+```
+
+## Social Coordination
+
+```typescript
+launch.configure({
+  social: {
+    // Pre-launch teasers
+    teasers: {
+      enabled: true,
+      start: 'T-7',
+      frequency: 'daily'
+    },
+
+    // Launch day posts
+    launchDay: {
+      twitter: {
+        posts: 4,
+        thread: true,
+        retweet: ['team-members']
+      },
+      linkedin: {
+        posts: 2,
+        engage: 'comments'
+      }
+    },
+
+    // Post-launch follow-up
+    followUp: {
+      day1: 'Thank you post',
+      day3: 'Milestone update',
+      day7: 'Week 1 recap'
+    }
+  }
+})
+```
+
+## Email Sequences
+
+```typescript
+launch.configure({
+  email: {
+    // VIP early access
+    vip: {
+      list: 'vip-subscribers',
+      timing: 'T-24h',
+      exclusive: true
+    },
+
+    // Main list
+    main: {
+      list: 'subscribers',
+      timing: 'T+6h',
+      followUp: ['T+24h', 'T+72h']
+    },
+
+    // Cold list reactivation
+    cold: {
+      list: 'inactive',
+      timing: 'T+48h',
+      subject: 'You might have missed this...'
+    }
+  }
+})
+```
+
+## Launch Analytics
+
+```typescript
+// Real-time launch monitoring
+const status = await launch.status()
+
+console.log(status.producthunt.rank)      // Current PH rank
+console.log(status.producthunt.upvotes)   // Upvote count
+console.log(status.twitter.impressions)   // Tweet impressions
+console.log(status.email.opens)           // Email open rate
+console.log(status.signups)               // New signups
+
+// Post-launch report
+const report = await launch.report()
+```
+
+## Retry and Recovery
+
+```typescript
+// If something fails
+launch.on('error', async (error, channel) => {
+  console.log(`${channel} failed: ${error.message}`)
+
+  // Auto-retry
+  await launch.retry(channel)
+})
+
+// Manual intervention
+await launch.pause('twitter')
+await launch.resume('twitter')
+```
+
+## API
+
+### `Launch.create(options)`
+
+Create a new launch.
+
+### `launch.configure(options)`
+
+Configure launch channels.
+
+### `launch.execute()`
+
+Execute the launch.
+
+### `launch.status()`
+
+Get real-time launch status.
+
+### `launch.report()`
+
+Generate post-launch report.
+
+## Related
+
+- [Social Media](/docs/social)
+- [Email Outbound](/docs/outbound-email)
+- [Content Marketing](/docs/content)

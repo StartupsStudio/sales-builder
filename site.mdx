@@ -1,0 +1,320 @@
+---
+$type: LandingPage
+$id: https://sales.builder
+name: Sales Builder
+title: Autonomous Sales & Growth for Founders
+description: Orchestrate every sales channel—launch, content, SEO, social, video, outbound, funnels—through one simple API.
+---
+
+# Sales Builder
+
+## Hero
+
+<Hero
+  badge="Growth-as-Code"
+  title="Sales on Autopilot. Growth Without the Grind."
+  subtitle="Orchestrate every sales and growth channel—launch, content marketing, SEO/AEO, social engagement, video generation, email outbound, and nurturing funnels—through one elegant API."
+  primaryCTA={{ label: "Start Growing", href: "/docs/quickstart" }}
+  secondaryCTA={{ label: "See Workflows", href: "/demo" }}
+/>
+
+## Logos
+
+<LogoCloud
+  title="Powering growth for ambitious founders"
+  logos={["startups-studio", "primitives-org-ai", "business-org-ai"]}
+/>
+
+## Problem
+
+<Section variant="problem">
+
+### The Founder's Dilemma
+
+You have two choices:
+
+1. **Focus on product** — But growth stalls and competitors overtake you
+2. **Focus on sales** — But product quality suffers and users churn
+
+Either way, you lose.
+
+The reality:
+
+- **Content marketing** requires consistent publishing
+- **Social presence** demands daily engagement
+- **Outbound sales** needs persistent follow-up
+- **Lead nurturing** takes weeks of touchpoints
+- **Video content** requires production skills
+
+One person can't do it all. But hiring a team is expensive.
+
+</Section>
+
+## Solution
+
+<Section variant="solution">
+
+### What If Sales Ran Itself?
+
+```typescript
+import { Sales } from 'sales-builder'
+
+const sales = Sales.create({
+  product: 'MyStartup',
+  icp: 'technical-founders'
+})
+
+// One command. All channels.
+await sales.start({
+  content: { frequency: '3x/week' },
+  social: { frequency: 'daily' },
+  outbound: { volume: 50, cadence: 'weekly' },
+  video: { frequency: 'weekly' }
+})
+
+// Wake up to new leads.
+```
+
+Define your growth strategy. We execute it 24/7.
+
+</Section>
+
+## Features
+
+<Features
+  title="Every Channel. One API."
+  subtitle="Autonomous workflows for the entire growth stack."
+  features={[
+    {
+      icon: "rocket",
+      title: "Launch Orchestration",
+      description: "Coordinate Product Hunt, social announcements, email blasts, and PR—all timed perfectly for maximum impact."
+    },
+    {
+      icon: "pen-tool",
+      title: "Content Marketing",
+      description: "Blog posts, articles, and thought leadership content generated and published on your schedule."
+    },
+    {
+      icon: "search",
+      title: "SEO & AEO",
+      description: "Optimize for Google and AI engines (ChatGPT, Claude, Perplexity). Get found by humans and machines."
+    },
+    {
+      icon: "share-2",
+      title: "Social Engagement",
+      description: "Auto-posting, engagement, threads, and community building across Twitter, LinkedIn, and more."
+    },
+    {
+      icon: "video",
+      title: "Video Generation",
+      description: "YouTube tutorials, TikTok clips, and short-form content created and published automatically."
+    },
+    {
+      icon: "presentation",
+      title: "Sales Presentations",
+      description: "Pitch decks and demo videos generated from your product data and tailored to each prospect."
+    },
+    {
+      icon: "mail",
+      title: "Email Outbound",
+      description: "Personalized cold email sequences with intelligent follow-up and A/B testing."
+    },
+    {
+      icon: "message-circle",
+      title: "Inbound Response",
+      description: "Sub-5-minute response to every lead. Qualification, routing, and handoff—all automated."
+    },
+    {
+      icon: "git-merge",
+      title: "Nurturing Funnels",
+      description: "Multi-stage sequences that move prospects from awareness to conversion on autopilot."
+    },
+    {
+      icon: "bar-chart",
+      title: "Growth Analytics",
+      description: "Real-time visibility into pipeline, channel performance, and conversion metrics."
+    }
+  ]}
+/>
+
+## How It Works
+
+<Steps
+  title="Growth in Three Steps"
+  steps={[
+    {
+      title: "Define Your ICP",
+      description: "Tell us who you're selling to. We'll optimize every channel for that audience.",
+      code: `import { Sales } from 'sales-builder'
+
+const sales = Sales.create({
+  product: 'MyStartup',
+  icp: 'technical-founders',
+  industry: 'developer-tools'
+})`
+    },
+    {
+      title: "Configure Channels",
+      description: "Choose your growth channels and set your cadence. We handle the execution.",
+      code: `await sales.configure({
+  content: { topics: ['tutorials', 'case-studies'] },
+  social: { platforms: ['twitter', 'linkedin'] },
+  outbound: { channels: ['email', 'linkedin'] },
+  funnels: { conversion: 'trial-to-paid' }
+})`
+    },
+    {
+      title: "Watch It Grow",
+      description: "Launch once. Growth runs continuously. Check your dashboard for results.",
+      code: `await sales.start()
+
+// Continuous execution:
+// - 3 blog posts per week
+// - Daily social engagement
+// - 50 outbound emails weekly
+// - Instant lead response
+// - Automated nurturing`
+    }
+  ]}
+/>
+
+## The Growth Stack
+
+<Section>
+
+### Everything Connected
+
+```
+┌────────────────────────────────────────────────────┐
+│                   ATTRACT                           │
+│  Content → SEO/AEO → Social → Video → Presentations │
+├────────────────────────────────────────────────────┤
+│                   ENGAGE                            │
+│  Outbound Email → Social DMs → Inbound Response    │
+├────────────────────────────────────────────────────┤
+│                   CONVERT                           │
+│  Funnels → Sequences → Personalization → Handoff   │
+├────────────────────────────────────────────────────┤
+│                   ANALYZE                           │
+│  Pipeline → Channels → Content → Experiments       │
+└────────────────────────────────────────────────────┘
+```
+
+All channels share data. Insights from content inform outbound. Social engagement feeds funnels. Everything optimizes together.
+
+</Section>
+
+## Stats
+
+<Stats
+  stats={[
+    { value: "10+", label: "Growth Channels" },
+    { value: "24/7", label: "Autonomous Execution" },
+    { value: "< 5min", label: "Lead Response Time" },
+    { value: "0", label: "Manual Tasks" }
+  ]}
+/>
+
+## Testimonials
+
+<Testimonials
+  testimonials={[
+    {
+      quote: "I used to spend 4 hours a day on sales activities. Now I check the dashboard once a week and leads keep coming in.",
+      author: "Solo Founder",
+      role: "SaaS Startup"
+    },
+    {
+      quote: "Sales Builder does what would take a 3-person growth team. It's like having a growth department in an API.",
+      author: "Technical Co-founder",
+      role: "Developer Tools"
+    }
+  ]}
+/>
+
+## Pricing
+
+<Pricing
+  title="Start Growing Today"
+  tiers={[
+    {
+      name: "Founder",
+      price: "Free",
+      description: "For early-stage founders",
+      features: [
+        "1 product",
+        "3 channels",
+        "100 outbound/month",
+        "Basic funnels",
+        "Community support"
+      ],
+      cta: { label: "Start Free", href: "/signup" }
+    },
+    {
+      name: "Growth",
+      price: "$149/mo",
+      description: "For scaling startups",
+      features: [
+        "3 products",
+        "All channels",
+        "1,000 outbound/month",
+        "Advanced funnels",
+        "Video generation",
+        "Priority support"
+      ],
+      cta: { label: "Start Trial", href: "/signup?plan=growth" },
+      featured: true
+    },
+    {
+      name: "Studio",
+      price: "$499/mo",
+      description: "For startup studios",
+      features: [
+        "Unlimited products",
+        "All channels",
+        "10,000 outbound/month",
+        "Custom funnels",
+        "White-label options",
+        "Dedicated support"
+      ],
+      cta: { label: "Contact Sales", href: "/contact" }
+    }
+  ]}
+/>
+
+## FAQ
+
+<FAQ
+  items={[
+    {
+      question: "How does AI-generated content maintain quality?",
+      answer: "We use advanced AI models trained on high-performing content. You can set brand voice guidelines, review before publishing, or let it run fully autonomous. Most users start with review mode and move to autonomous as they see the quality."
+    },
+    {
+      question: "Will outbound emails land in spam?",
+      answer: "We follow email best practices—proper warmup, personalization, sending limits, and reputation management. Our deliverability rates consistently exceed 95%."
+    },
+    {
+      question: "Can I connect my existing tools?",
+      answer: "Yes. Sales Builder integrates with major CRMs (HubSpot, Salesforce), email providers (Gmail, Outlook), social platforms, and analytics tools. Data flows both ways."
+    },
+    {
+      question: "What's AEO (AI Engine Optimization)?",
+      answer: "AEO optimizes your content to appear in AI-powered search results—ChatGPT, Claude, Perplexity, etc. As more people use AI for research, AEO becomes as important as traditional SEO."
+    },
+    {
+      question: "How do funnels work with my existing sales process?",
+      answer: "Funnels handle automated nurturing and handoff qualified leads to your team (or calendar). You define the qualification criteria and handoff triggers. The AI handles everything up to that point."
+    }
+  ]}
+/>
+
+## CTA
+
+<CTA
+  title="Ready to Grow on Autopilot?"
+  subtitle="Define your growth strategy. We execute it 24/7."
+  primaryCTA={{ label: "npx sales-builder init", href: "/docs/quickstart" }}
+  secondaryCTA={{ label: "View Workflows", href: "/docs" }}
+/>

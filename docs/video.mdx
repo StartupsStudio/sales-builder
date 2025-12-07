@@ -1,0 +1,235 @@
+---
+title: Video Generation
+description: Create YouTube, TikTok, and short-form video content
+---
+
+# Video Generation
+
+Generate video content for YouTube, TikTok, and other platforms.
+
+## Overview
+
+The video channel handles:
+
+- YouTube tutorials and explainers
+- TikTok and YouTube Shorts
+- Screen recordings with voiceover
+- Talking head videos
+- Animated explainers
+
+## Basic Usage
+
+```typescript
+import { Video } from 'sales-builder/channels'
+
+await Video.youtube({
+  type: 'tutorial',
+  topic: 'How to get started with {product}',
+  duration: '5min'
+})
+```
+
+## Configuration
+
+```typescript
+sales.configure({
+  video: {
+    platforms: ['youtube', 'tiktok'],
+    style: {
+      brand: {
+        colors: ['#0066FF', '#00CC88'],
+        logo: 'logo.png',
+        intro: 'intro.mp4',
+        outro: 'outro.mp4'
+      },
+      voice: {
+        type: 'ai',              // ai | human | screen-only
+        voice: 'alloy',          // OpenAI voice
+        speed: 1.0
+      }
+    },
+    publishing: {
+      youtube: {
+        channel: 'UC...',
+        autoPublish: false
+      },
+      tiktok: {
+        autoPublish: true
+      }
+    }
+  }
+})
+```
+
+## Video Types
+
+### YouTube Tutorials
+
+```typescript
+await Video.youtube({
+  type: 'tutorial',
+  topic: 'Complete Guide to {feature}',
+  duration: '10min',
+  structure: [
+    { section: 'intro', duration: '30s' },
+    { section: 'overview', duration: '1min' },
+    { section: 'step-by-step', duration: '7min' },
+    { section: 'tips', duration: '1min' },
+    { section: 'outro', duration: '30s' }
+  ],
+  style: 'screen-recording',
+  chapters: true
+})
+```
+
+### Short-Form Content
+
+```typescript
+await Video.shorts({
+  platforms: ['youtube', 'tiktok'],
+  topic: 'Quick tip: {tip}',
+  duration: '60s',
+  style: 'hook-value-cta',
+  hook: 'Stop doing X wrong!',
+  value: 'Here\'s how to do it right...',
+  cta: 'Follow for more tips'
+})
+```
+
+### Product Demos
+
+```typescript
+await Video.demo({
+  product: 'MyStartup',
+  duration: '3min',
+  highlights: ['feature1', 'feature2', 'feature3'],
+  style: 'problem-solution',
+  cta: {
+    type: 'trial',
+    url: 'https://mystartup.com/trial'
+  }
+})
+```
+
+### Talking Head
+
+```typescript
+await Video.talking({
+  topic: 'Why we built {product}',
+  duration: '5min',
+  presenter: {
+    type: 'ai-avatar',           // ai-avatar | stock | custom
+    avatar: 'professional-female'
+  },
+  script: 'auto',                // AI-generated from topic
+  bRoll: true                    // Add relevant B-roll footage
+})
+```
+
+### Animated Explainers
+
+```typescript
+await Video.animated({
+  topic: 'How {product} works',
+  duration: '2min',
+  style: 'whiteboard',           // whiteboard | motion-graphics | 2d
+  voiceover: true
+})
+```
+
+## Batch Generation
+
+```typescript
+// Generate a series
+await Video.series({
+  name: '{Product} Tutorials',
+  episodes: [
+    { topic: 'Getting Started', duration: '5min' },
+    { topic: 'Advanced Features', duration: '8min' },
+    { topic: 'Best Practices', duration: '6min' }
+  ],
+  style: 'consistent',
+  schedule: 'weekly'
+})
+```
+
+## Content Calendar
+
+```typescript
+const calendar = await Video.calendar({
+  weeks: 4,
+  platforms: {
+    youtube: {
+      frequency: 'weekly',
+      type: 'tutorial'
+    },
+    tiktok: {
+      frequency: '3x/week',
+      type: 'shorts'
+    }
+  }
+})
+
+await calendar.generate()
+```
+
+## Publishing
+
+```typescript
+await Video.publish({
+  video: generatedVideo,
+  platforms: {
+    youtube: {
+      title: 'How to {topic} | {Product} Tutorial',
+      description: 'In this video...',
+      tags: ['tutorial', 'howto', 'product'],
+      thumbnail: 'auto',         // AI-generated thumbnail
+      schedule: '2024-03-01T10:00:00Z'
+    },
+    tiktok: {
+      caption: 'Quick tip! 🔥 #tutorial #tech',
+      schedule: '2024-03-01T18:00:00Z'
+    }
+  }
+})
+```
+
+## Analytics
+
+```typescript
+const analytics = await Video.analytics({
+  platforms: ['youtube', 'tiktok'],
+  period: 'last-30-days',
+  metrics: ['views', 'watch-time', 'engagement', 'conversions']
+})
+
+// Best performing videos
+const topVideos = await Video.top({
+  by: 'conversions',
+  limit: 10
+})
+```
+
+## API
+
+### `Video.youtube(options)`
+
+Generate YouTube content.
+
+### `Video.shorts(options)`
+
+Generate short-form content.
+
+### `Video.demo(options)`
+
+Generate product demos.
+
+### `Video.publish(options)`
+
+Publish to platforms.
+
+## Related
+
+- [Content Marketing](/docs/content)
+- [Social Media](/docs/social)
+- [Launch Orchestration](/docs/launch)

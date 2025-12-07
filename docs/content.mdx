@@ -1,0 +1,224 @@
+---
+title: Content Marketing
+description: Generate and publish blog posts, articles, and thought leadership
+---
+
+# Content Marketing
+
+Generate high-quality content that attracts your ideal customers.
+
+## Overview
+
+The content channel handles:
+
+- Blog post generation
+- Long-form articles
+- Thought leadership pieces
+- Case studies
+- Tutorials and guides
+- SEO optimization
+
+## Basic Usage
+
+```typescript
+import { Content } from 'sales-builder/channels'
+
+await Content.blog({
+  topic: 'How to solve {problem}',
+  style: 'tutorial',
+  seo: true,
+  publish: true
+})
+```
+
+## Configuration
+
+```typescript
+sales.configure({
+  content: {
+    topics: ['tutorials', 'case-studies', 'industry-trends'],
+    frequency: '3x/week',
+    style: 'technical',
+    voice: {
+      tone: 'helpful',
+      formality: 'conversational'
+    },
+    seo: {
+      enabled: true,
+      targetKeywords: ['keyword1', 'keyword2']
+    },
+    publishing: {
+      platform: 'blog',          // blog | medium | hashnode | dev.to
+      autoPublish: true,
+      reviewRequired: false
+    }
+  }
+})
+```
+
+## Content Types
+
+### Blog Posts
+
+```typescript
+await Content.blog({
+  topic: 'Getting Started with {product}',
+  style: 'tutorial',
+  length: 'medium',              // short | medium | long
+  sections: ['intro', 'steps', 'conclusion', 'cta'],
+  codeExamples: true
+})
+```
+
+### Long-form Articles
+
+```typescript
+await Content.article({
+  topic: 'The Complete Guide to {topic}',
+  style: 'comprehensive',
+  length: 'long',
+  outline: [
+    'Introduction',
+    'Why It Matters',
+    'Key Concepts',
+    'Step-by-Step Guide',
+    'Best Practices',
+    'Common Mistakes',
+    'Conclusion'
+  ]
+})
+```
+
+### Case Studies
+
+```typescript
+await Content.caseStudy({
+  customer: 'Acme Corp',
+  challenge: 'Scaling their growth team',
+  solution: 'Implemented Sales Builder',
+  results: {
+    metric1: '3x lead increase',
+    metric2: '50% faster response'
+  }
+})
+```
+
+### Thought Leadership
+
+```typescript
+await Content.thought({
+  topic: 'The Future of {industry}',
+  angle: 'contrarian',           // contrarian | predictive | analytical
+  platform: 'linkedin',
+  length: 'medium'
+})
+```
+
+## Content Calendar
+
+```typescript
+import { Calendar } from 'sales-builder/channels'
+
+const calendar = Calendar.create({
+  frequency: '3x/week',
+  distribution: {
+    monday: 'tutorial',
+    wednesday: 'case-study',
+    friday: 'thought-leadership'
+  },
+  topics: {
+    rotate: ['feature-deep-dives', 'industry-trends', 'how-tos'],
+    seasonal: {
+      'q1': ['planning', 'goals'],
+      'q4': ['year-in-review', 'predictions']
+    }
+  }
+})
+
+await calendar.generate({ weeks: 4 })
+```
+
+## Repurposing
+
+```typescript
+// Turn one piece into many
+await Content.repurpose({
+  source: blogPost,
+  formats: [
+    'twitter-thread',
+    'linkedin-post',
+    'email-newsletter',
+    'youtube-script'
+  ]
+})
+```
+
+## Integration with SEO
+
+All content is automatically optimized:
+
+```typescript
+await Content.blog({
+  topic: 'Best practices for X',
+  seo: {
+    primaryKeyword: 'best practices X',
+    secondaryKeywords: ['X tips', 'how to X'],
+    metaDescription: 'auto',     // AI-generated
+    internalLinks: true,
+    schema: true                 // JSON-LD markup
+  }
+})
+```
+
+## Publishing Platforms
+
+```typescript
+sales.configure({
+  content: {
+    publishing: {
+      primary: 'blog',           // Your own blog
+      syndication: ['medium', 'dev.to', 'hashnode'],
+      canonical: 'blog'          // Where canonical URL points
+    }
+  }
+})
+```
+
+## Analytics
+
+```typescript
+const performance = await Content.analytics({
+  period: 'last-30-days',
+  metrics: ['views', 'time-on-page', 'conversions', 'shares']
+})
+
+// Top performing content
+const topContent = await Content.top({
+  by: 'conversions',
+  limit: 10
+})
+```
+
+## API
+
+### `Content.blog(options)`
+
+Generate a blog post.
+
+### `Content.article(options)`
+
+Generate a long-form article.
+
+### `Content.caseStudy(options)`
+
+Generate a case study.
+
+### `Content.repurpose(options)`
+
+Repurpose content into multiple formats.
+
+## Related
+
+- [SEO & AEO](/docs/seo)
+- [Social Media](/docs/social)
+- [Video Generation](/docs/video)

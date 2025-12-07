@@ -1,0 +1,282 @@
+---
+title: Nurturing Funnels
+description: Automated multi-stage conversion workflows
+---
+
+# Nurturing Funnels
+
+Build automated sequences that move prospects from awareness to conversion.
+
+## Overview
+
+Funnels handle:
+
+- Multi-stage lead nurturing
+- Trigger-based automation
+- Personalized content delivery
+- Conversion optimization
+- Handoff to sales
+
+## Basic Usage
+
+```typescript
+import { Funnel } from 'sales-builder/funnels'
+
+const funnel = Funnel.create({
+  name: 'trial-to-paid',
+  stages: ['awareness', 'interest', 'trial', 'conversion']
+})
+
+await funnel.activate()
+```
+
+## Funnel Configuration
+
+```typescript
+const funnel = Funnel.create({
+  name: 'trial-to-paid',
+  stages: [
+    {
+      name: 'awareness',
+      triggers: ['blog-visit', 'social-follow', 'ad-click'],
+      actions: [
+        { type: 'tag', value: 'awareness' },
+        { type: 'email', template: 'welcome-series' }
+      ],
+      duration: '7 days',
+      exitCondition: 'pricing-page-visit'
+    },
+    {
+      name: 'interest',
+      triggers: ['pricing-page', 'docs-visit', 'demo-request'],
+      actions: [
+        { type: 'tag', value: 'interested' },
+        { type: 'email', template: 'case-study' },
+        { type: 'retarget', audience: 'interested' }
+      ],
+      duration: '14 days',
+      exitCondition: 'trial-signup'
+    },
+    {
+      name: 'trial',
+      triggers: ['signup', 'trial-start'],
+      actions: [
+        { type: 'email', template: 'onboarding-sequence' },
+        { type: 'in-app', template: 'getting-started' },
+        { type: 'monitor', metrics: ['usage', 'activation'] }
+      ],
+      duration: '14 days',
+      exitCondition: 'payment-added'
+    },
+    {
+      name: 'conversion',
+      triggers: ['trial-day-10', 'high-usage', 'feature-limit'],
+      actions: [
+        { type: 'email', template: 'upgrade-offer' },
+        { type: 'in-app', template: 'upgrade-modal' },
+        { type: 'notify', channel: 'slack', condition: 'high-intent' }
+      ],
+      exitCondition: 'converted'
+    }
+  ]
+})
+```
+
+## Triggers
+
+### Event Triggers
+
+```typescript
+funnel.addTrigger({
+  type: 'event',
+  event: 'page.viewed',
+  conditions: {
+    path: '/pricing'
+  },
+  action: 'advance-stage'
+})
+```
+
+### Time Triggers
+
+```typescript
+funnel.addTrigger({
+  type: 'time',
+  delay: '3 days',
+  from: 'stage-entered',
+  action: {
+    type: 'email',
+    template: 'follow-up'
+  }
+})
+```
+
+### Behavior Triggers
+
+```typescript
+funnel.addTrigger({
+  type: 'behavior',
+  condition: {
+    sessions: '>= 3',
+    period: '7 days'
+  },
+  action: 'mark-engaged'
+})
+```
+
+### Score Triggers
+
+```typescript
+funnel.addTrigger({
+  type: 'score',
+  threshold: 50,
+  action: 'notify-sales'
+})
+```
+
+## Lead Scoring
+
+```typescript
+funnel.configureScoring({
+  activities: {
+    'page.viewed': 1,
+    'pricing.viewed': 5,
+    'docs.viewed': 3,
+    'demo.requested': 20,
+    'trial.started': 30,
+    'feature.used': 2
+  },
+  decay: {
+    enabled: true,
+    rate: '10%/week'
+  },
+  thresholds: {
+    cold: 0,
+    warm: 20,
+    hot: 50,
+    salesReady: 80
+  }
+})
+```
+
+## Personalization
+
+```typescript
+funnel.configurePersonalization({
+  segments: {
+    'developer': {
+      content: 'technical',
+      examples: 'code-heavy'
+    },
+    'business': {
+      content: 'benefits-focused',
+      examples: 'case-studies'
+    }
+  },
+  dynamic: {
+    company: true,
+    industry: true,
+    useCase: true
+  }
+})
+```
+
+## Branching
+
+```typescript
+const funnel = Funnel.create({
+  name: 'adaptive-nurture',
+  stages: [
+    {
+      name: 'qualification',
+      branches: [
+        {
+          condition: 'company-size > 100',
+          next: 'enterprise-path'
+        },
+        {
+          condition: 'company-size <= 100',
+          next: 'smb-path'
+        }
+      ]
+    },
+    {
+      name: 'enterprise-path',
+      actions: [/* enterprise-specific */]
+    },
+    {
+      name: 'smb-path',
+      actions: [/* smb-specific */]
+    }
+  ]
+})
+```
+
+## Handoff
+
+```typescript
+funnel.configureHandoff({
+  triggers: ['score >= 80', 'demo-requested', 'pricing-question'],
+  actions: [
+    { type: 'notify', channel: 'slack', template: 'new-hot-lead' },
+    { type: 'assign', to: 'round-robin' },
+    { type: 'calendar', link: 'calendly-link' }
+  ],
+  sla: {
+    responseTime: '< 1 hour',
+    escalate: 'manager'
+  }
+})
+```
+
+## Analytics
+
+```typescript
+const analytics = await funnel.analytics({
+  period: 'last-30-days'
+})
+
+console.log(analytics.conversion)         // Overall conversion rate
+console.log(analytics.stageConversion)    // By stage
+console.log(analytics.averageTime)        // Time to convert
+console.log(analytics.dropOff)            // Where leads drop off
+```
+
+## A/B Testing
+
+```typescript
+funnel.test({
+  name: 'email-timing',
+  variants: [
+    { name: 'control', delay: '3 days' },
+    { name: 'faster', delay: '1 day' }
+  ],
+  metric: 'conversion',
+  traffic: 50,
+  duration: '2 weeks'
+})
+```
+
+## API
+
+### `Funnel.create(options)`
+
+Create a new funnel.
+
+### `funnel.activate()`
+
+Activate the funnel.
+
+### `funnel.addTrigger(trigger)`
+
+Add a trigger.
+
+### `funnel.analytics(options)`
+
+Get funnel analytics.
+
+## Related
+
+- [Email Outbound](/docs/outbound-email)
+- [Inbound Response](/docs/inbound)
+- [Analytics](/docs/analytics)

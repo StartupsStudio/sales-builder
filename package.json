@@ -1,0 +1,64 @@
+{
+  "name": "sales-builder",
+  "version": "0.1.0",
+  "description": "Autonomous sales and growth workflows for founders",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "types": "./dist/index.d.ts"
+    },
+    "./api": {
+      "import": "./dist/api.js",
+      "types": "./dist/api.d.ts"
+    },
+    "./channels": {
+      "import": "./dist/channels.js",
+      "types": "./dist/channels.d.ts"
+    },
+    "./funnels": {
+      "import": "./dist/funnels.js",
+      "types": "./dist/funnels.d.ts"
+    }
+  },
+  "scripts": {
+    "build": "tsup src/index.ts src/api.ts src/channels.ts src/funnels.ts --format esm --dts",
+    "dev": "tsup src/index.ts --format esm --dts --watch",
+    "test": "vitest",
+    "lint": "eslint src/",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "rpc.do": "latest"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0",
+    "vitest": "^1.0.0"
+  },
+  "keywords": [
+    "sales",
+    "growth",
+    "marketing",
+    "automation",
+    "ai",
+    "agents",
+    "workflow",
+    "funnel",
+    "outbound",
+    "inbound"
+  ],
+  "author": "Startups.Studio",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/StartupsStudio/sales-builder.git"
+  },
+  "homepage": "https://sales.builder",
+  "bugs": {
+    "url": "https://github.com/StartupsStudio/sales-builder/issues"
+  }
+}

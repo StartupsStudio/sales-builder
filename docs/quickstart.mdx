@@ -1,0 +1,119 @@
+---
+title: Quickstart
+description: Launch your first growth campaign in minutes
+---
+
+# Quickstart
+
+Get your growth engine running in under 5 minutes.
+
+## Installation
+
+```bash
+npm install sales-builder
+```
+
+Or use the CLI directly:
+
+```bash
+npx sales-builder init
+```
+
+## Create Your Sales Engine
+
+```typescript
+import { Sales } from 'sales-builder'
+
+// 1. Initialize with your product and ICP
+const sales = Sales.create({
+  product: 'MyStartup',
+  icp: 'technical-founders',
+  industry: 'developer-tools'
+})
+
+// 2. Configure your channels
+await sales.configure({
+  content: {
+    topics: ['tutorials', 'case-studies', 'thought-leadership'],
+    frequency: '3x/week'
+  },
+  social: {
+    platforms: ['twitter', 'linkedin'],
+    frequency: 'daily'
+  },
+  outbound: {
+    channels: ['email'],
+    volume: 50,
+    cadence: 'weekly'
+  }
+})
+
+// 3. Start the engine
+await sales.start()
+```
+
+## Launch Your Product
+
+```typescript
+import { Launch } from 'sales-builder'
+
+const launch = Launch.create({
+  product: 'MyStartup',
+  date: '2024-03-01',
+  channels: ['producthunt', 'twitter', 'linkedin', 'email']
+})
+
+// Configure launch assets
+launch.configure({
+  producthunt: {
+    tagline: 'Build autonomous startups with code',
+    description: '...',
+    images: ['hero.png', 'demo.gif']
+  },
+  twitter: {
+    thread: true,
+    announcements: 3
+  },
+  email: {
+    list: 'subscribers',
+    subject: 'We just launched...'
+  }
+})
+
+// Execute the launch
+await launch.execute()
+```
+
+## Monitor Results
+
+```typescript
+import { Analytics } from 'sales-builder'
+
+// Real-time dashboard
+const dashboard = await Analytics.dashboard()
+console.log(dashboard.leads.today)
+console.log(dashboard.pipeline.value)
+
+// Channel performance
+const performance = await Analytics.channels({
+  period: 'last-7-days'
+})
+```
+
+## Project Structure
+
+```
+my-startup/
+├── sales.config.ts      # Main configuration
+├── src/
+│   ├── channels/        # Channel configurations
+│   ├── funnels/         # Funnel definitions
+│   └── sequences/       # Email/social sequences
+└── package.json
+```
+
+## Next Steps
+
+- [Configure Content Marketing](/docs/content)
+- [Set Up Social Channels](/docs/social)
+- [Create Your First Funnel](/docs/funnels)
